@@ -4,6 +4,8 @@ Ejercicio 5
 
 Hacer un programa para calcular la diferencia en horas:minutos:segundos entre dos instantes de
 tiempo dados en horas:minutos:segundos.
+
+Autor: Alejandro Manzanares Lemus
 """
 
 print('Por favor introduzca dos instantes de tiempo: (hh:mm:ss)')

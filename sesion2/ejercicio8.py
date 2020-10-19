@@ -10,14 +10,14 @@ Autor: Alejandro Manzanares Lemus
 """
 porcentaje = float(input('Por favor introduzca un porcentaje de alcohol en el intervalor (0,100]: '))
 
-Cervezacc = 333.0
-Maximocc = 50.0
+CERVEZACC = 333.0
+MAXIMOCC = 50.0
 
 porcentaje = porcentaje / 100
 
-porcentaje = porcentaje * Cervezacc
+porcentaje = porcentaje * CERVEZACC
 
-cervezas = Maximocc / porcentaje
+cervezas = MAXIMOCC / porcentaje
 
 print('Maximo numero de cervezas: %d' % (cervezas))
 

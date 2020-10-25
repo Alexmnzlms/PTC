@@ -10,13 +10,16 @@ son de un tamaño de 1.6 m 2 .
 Autor: Alejandro Manzanares Lemus
 """
 
-kwdiario = float(input('Introduzca la cantidad media diaria de kwh/m2: '))
-M2PANEL = 16.0
+kwdiario    = float(input('Introduzca la cantidad media diaria de kwh/m2: '))
+M2PANEL     = 1.6
 RENDIMIENTO = 0.17
-OBJETIVO = 1000
+OBJETIVO    = 1000
 
 kwdiario = kwdiario * M2PANEL * RENDIMIENTO * 30
 
 numpaneles = OBJETIVO / kwdiario
 
-print('El numero minimo de paneles es %d' % (numpaneles+1))
+if OBJETIVO % kwdiario > 0:
+    numpaneles = numpaneles + 1
+
+print('El numero minimo de paneles es %d' % (numpaneles))

@@ -14,8 +14,11 @@ y = float(input('Concentracion (0, 100]: '))
 
 CONCENTRACION = 0.8
 
-# y = y / 100.0
+x = x / 100.0
+y = y / 100.0
 
 if y < CONCENTRACION:
-    agua = (0.8 * x * x) / y - x
+    agua = ((0.8 * x * x) / y - x) * 100
+    disol = x * 100 - agua
     print('Los cc de agua son:', agua)
+    print('Los cc de disolucion son:', disol)

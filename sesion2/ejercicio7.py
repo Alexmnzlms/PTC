@@ -14,8 +14,11 @@ nombre = input('Nombre: ')
 apellido1 = input('Primer apellido: ')
 apellido2 = input('Segundo apellido: ')
 
+print()
 print('Nombre completo: ', nombre + ' ' + apellido1 + ' ' + apellido2)
 print('Nombre completo al revés: ', apellido2 + ' ' + apellido1 + ' ' + nombre)
+nombre_completo = nombre + apellido1 + apellido2
+print('Nombre completo al revés(2):', nombre_completo[::-1])
 print('Nombre: ', nombre)
 print('Primer apellido: ', apellido1)
 print('Segundo apellido: ', apellido2)

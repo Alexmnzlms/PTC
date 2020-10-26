@@ -21,12 +21,13 @@ if maximo < x_2:
 if maximo < x_3:
     maximo = x_3
     
+print('Maximo:', maximo)
+    
 if minimo > x_2:
     minimo = x_2
 
 if minimo > x_3:
     minimo = x_3
     
-print('Maximo:', maximo)
 print('Minimo:', minimo)
     

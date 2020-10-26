@@ -31,7 +31,7 @@ if (minuto_i > 59 or minuto_f > 59):
 hora_i = int(hora_i)
 hora_f = int(hora_f)
 
-if(not fallo):
+if (not fallo):
     seg_i = abs((hora_i * 3600 + minuto_i * 60 + segundo_i) - (hora_f * 3600 + minuto_f * 60 + segundo_f))
     dif_h = int(seg_i/3600)
     seg_i = seg_i%3600

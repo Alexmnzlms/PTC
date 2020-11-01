@@ -13,7 +13,7 @@ def eliminar_letras(palabra, letra):
     
     for a in palabra:
         if a != letra:
-            eliminada = eliminada + a
+            eliminada += a
             
     return eliminada
 

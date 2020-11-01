@@ -12,7 +12,7 @@ def contar_letras(palabra, letra):
     n = 0
     for l in palabra:
         if l == letra:
-            n = n+1
+            n += 1
     
     return n
 

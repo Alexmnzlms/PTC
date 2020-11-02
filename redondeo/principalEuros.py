@@ -15,3 +15,28 @@ conveniente.
 Autor: Alejandro Manzanares Lemus
 """
 
+import financiacion as fn
+
+def val_input(numero, decimales):
+    numero = numero * (10 ** decimales)
+    numero = (int)(numero)
+    numero = numero / (10 ** decimales)
+    
+    return numero
+    
+euros = val_input(float(input('Introduzca una cantidad en euros: ')), 2)
+porcentaje = val_input(float(input('Introduzca un porcentaje: ')), 2)
+tiempo = int(val_input(float(input('Introduzca un numero de años: ')), 0))
+
+if ((porcentaje - 100.00) > 0.001):
+    porcentaje = 100.00
+
+capitalAcumulado = fn.calcularCapitalFinal(euros,porcentaje)
+
+for i in range(tiempo-1):
+    capitalAcumulado += fn.calcularCapitalFinal(euros,porcentaje)
+
+capitalAcumulado = fn.redondear(capitalAcumulado,2)
+
+print('El capital acumulado para una cantidad incial', euros, 'euros con un interes del', porcentaje, 'por ciento durante', tiempo, 'años es de:')
+print(capitalAcumulado)

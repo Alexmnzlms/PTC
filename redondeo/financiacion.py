@@ -14,3 +14,18 @@ calcularCapitalFinal(capitalInicial, interes)
 Autor: Alejandro Manzanares Lemus
 """
 
+def redondear(numero, decimales):
+    numero = numero * (10 ** decimales)
+    numero += 0.5
+    numero = (int)(numero)
+    numero = numero / (10 ** decimales)
+    
+    return numero
+
+def calcularCapitalFinal(capitalInicial, intereses):
+    capitalFinal = capitalInicial + (capitalInicial*intereses/100.0)
+    
+    return redondear(capitalFinal, 2)
+    
+    
+

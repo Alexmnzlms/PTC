@@ -4,6 +4,7 @@ Ejercicio 9
     
 Escribe una función elimina_vocales(palabra) que elimine todas las vocales que aparecen en la
 palabra.
+
 Autor: Alejandro Manzanares Lemus
 """
 def es_vocal(letra):

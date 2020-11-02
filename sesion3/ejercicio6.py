@@ -28,9 +28,6 @@ def vocales(palabra):
     return vocales
     
    
-         
-        
-        
 palabra = input('Introducza una palabra: ')
 
 print('Las vocales que aparecen en la palabra', palabra, 'son', vocales(palabra))

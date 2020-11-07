@@ -24,6 +24,7 @@ def redondear(numero, decimales):
 
 def calcularCapitalFinal(capitalInicial, intereses):
     capitalFinal = capitalInicial + (capitalInicial*intereses/100.0)
+    print(redondear(capitalFinal, 2))
     
     return redondear(capitalFinal, 2)
     

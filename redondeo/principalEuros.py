@@ -32,9 +32,8 @@ if ((porcentaje - 100.00) > 0.001):
     porcentaje = 100.00
 
 capitalAcumulado = fn.calcularCapitalFinal(euros,porcentaje)
-
 for i in range(tiempo-1):
-    capitalAcumulado += fn.calcularCapitalFinal(euros,porcentaje)
+    capitalAcumulado = fn.calcularCapitalFinal(capitalAcumulado,porcentaje)
 
 capitalAcumulado = fn.redondear(capitalAcumulado,2)
 

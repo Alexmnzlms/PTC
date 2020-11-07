@@ -28,5 +28,14 @@ def calcularCapitalFinal(capitalInicial, intereses):
     
     return redondear(capitalFinal, 2)
     
+
+
+def val_input(numero, decimales):
+    # Elimina todos los decimales a partir de la posicion decimal
+    # val_input(1.02999, 2) -> 1.02
+    numero = numero * (10 ** decimales)
+    numero = (int)(numero)
+    numero = numero / (10 ** decimales)
     
+    return numero
 

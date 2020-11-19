@@ -45,7 +45,7 @@ ficheroFinal.write(cabecera+'\n'+cadenaFinal)
 ficheroFinal.close()
 
 print("\n------------------------------------------------------------\n")
-# Leer el archivo 'poblacionPruebaFinal.csv' con reader() y 
+# Leer el archivo 'poblacionPruebaFinal.csv' con reader() y
 # mostrar todos los registros, uno a uno:
 print("Primer caso: se muestra cada linea como una lista de valores")
 with open('poblacionPruebaFinal.csv', encoding="utf8") as csvarchivo:
@@ -58,11 +58,11 @@ print("\n------------------------------------------------------------\n")
 # en este segundo caso se lee como una serie de diccionarios
 print("Segundo caso: se muestra cada linea como un diccionario")
 with open('poblacionPruebaFinal.csv', encoding="utf8") as csvarchivo:
-    poblacionDict = csv.DictReader(csvarchivo, delimiter=';')     
+    poblacionDict = csv.DictReader(csvarchivo, delimiter=';')
     for regD in poblacionDict:
         print(regD)
-        
-      
 
-  
- 
+
+
+
+

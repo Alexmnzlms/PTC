@@ -34,7 +34,7 @@ tabla1="""<!DOCTYPE html><html><head><title>Ejemplo tabla</title>
     <td>García</td>
     <td>20</td>
   </tr>
-</table> 
+</table>
 </body>
 </html>"""
 
@@ -46,11 +46,11 @@ print("Generada tabla html ejemploTabla1.html")
 fileEstilo=open("estilo.css","w", encoding="utf8")
 
 estilo="""  table, th, td {
-                border-collapse: collapse;    
+                border-collapse: collapse;
                 border:1px solid black;
                 font-family: Arial, Helvetica, sans-serif;
                 padding: 8px;
-                
+
             }  """
 
 fileEstilo.write(estilo)
@@ -72,7 +72,7 @@ paginaPob = """<!DOCTYPE html><html>
 
 cabecera=["Comunidad", "2011", "2012", "2013"]
 
-poblacion={"Andalucía": [6700000, 6900000, 7000000], 
+poblacion={"Andalucía": [6700000, 6900000, 7000000],
            "Castilla León" : [2300000, 2350000, 2400000],
            "Aragón" : [1100000, 1200000, 1300000]}
 
@@ -91,7 +91,7 @@ for comunidad, habitantes in sorted(poblacion.items()):
         paginaPob+="<td>%d</td>" % (habitantesAnio)
     paginaPob+="</tr>"
 
-        
+
 
 paginaPob+="</p></body></html>"
 

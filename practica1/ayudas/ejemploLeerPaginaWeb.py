@@ -8,7 +8,7 @@ En este ejemplo vamos a leer una página web online, localizamos los datos
 de la tabla y los guardarmos en un tipo lista.
 
 Primero usamos bs4
-si no está instalado instalar con 
+si no está instalado instalar con
 pip3 install bs4
 
 """
@@ -27,7 +27,7 @@ listaValores=[]
 url="https://www.ine.es/daco/daco42/codmun/cod_ccaa.htm"
 
 print("\nProcesando ", url)
- 
+
 datos = urllib.request.urlopen(url, context=ssl.create_default_context(cafile=certifi.where())).read()  #en utf8
 
 #datos = urllib.request.urlopen(url).read()  #en utf8
@@ -48,11 +48,11 @@ print("\nLas celdas son\n",celdas)
 
 for celda in celdas:
     listaValores.append(celda.get_text())
-    
+
 
 print("\nLista con los valores extraidos de las celdas\n",listaValores)
 
-''' Otra opción 
+''' Otra opción
 Usar lxml and Requests
 
 '''
@@ -83,7 +83,7 @@ print("\n------------------------------------------------------------\n")
 #leemos el fichero de Comunidades
 #el valor de codificacion es necesario en linux
 
-        
+
 comunidadesFich=open('comunidadesAutonomas.htm', 'r', encoding="utf8")
 
 comString=comunidadesFich.read()

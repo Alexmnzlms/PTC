@@ -11,7 +11,7 @@ def R2(com, prov, salida):
 
     dic_cod = fn.obtener_provincias_por_comunidad(com, prov)
         
-    fn.print_dic(dic_cod)
+    # fn.print_dic(dic_cod)
     
     dic_datos = {}
     

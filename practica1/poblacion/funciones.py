@@ -116,7 +116,6 @@ def obtener_tabla_html(ruta):
     
     return listaValores
     
-
 def obtener_provincias_por_comunidad(com_aut, prov):
     listaValores = obtener_tabla_html(com_aut)
         
@@ -159,3 +158,82 @@ def obtener_provincias_por_comunidad(com_aut, prov):
     # print()
     # print('Provincias que pertenecen a cada comunidad:')
     return dic_cod
+
+def diccionario_pob_com(com, prov, ruta):
+    dic_cod = obtener_provincias_por_comunidad(com, prov)
+        
+    # fn.print_dic(dic_cod)
+    
+    dic_datos = {}
+    
+    for k in dic_cod.keys():
+        for p in dic_cod[k]:
+            dic_datos[p] = np.array([])
+            
+    data = open_csv_data(ruta)
+    
+    data = data[3:len(data)-1]
+    
+    for dato in data:
+        linea = np.array(dato.split(";"))
+        indice = linea[0:1]
+        try:
+            dic_datos[indice[0]] = np.append(dic_datos[indice[0]], linea[9:len(linea) - 1])
+            dic_datos[indice[0]] = list(map(lambda x: float(x), dic_datos[indice[0]]))
+        except:
+            print('Clave no encontrada:', indice[0])
+    
+    # fn.print_dic(dic_datos)
+    
+    dic_datos_com = {}
+    
+    for d in dic_cod.keys():
+        dic_datos_com[d] = np.zeros((2017-2010+1)*2)
+        
+    for c in dic_cod.keys():
+        for p in dic_cod[c]:
+            for i in range(len(dic_datos[p])):
+                dic_datos_com[c][i] += dic_datos[p][i]
+                # print(c,p,i,dic_datos[p][i],dic_datos_com[c][i])
+    
+    # fn.print_dic(dic_datos_com)
+    
+    return dic_datos_com
+
+def obtener_mas_pobladas(dic, num):
+
+    dic_aux = {}
+    
+    for d in dic.keys():
+        cont = 0.0
+        for i in dic[d]:
+            cont += i
+        
+        dic_aux[d] = cont
+        
+    list_keys = []
+    for i in range(num):
+        max = 0
+        key = ""
+        for d in dic_aux.keys():
+            if max < dic_aux[d]:
+                max = dic_aux[d]
+                key = d
+        list_keys.append(key)
+        del dic_aux[key]
+    
+    dic_mp = {}
+    for k in list_keys:
+        dic_mp[k] = dic[k]
+    
+    return dic_mp
+
+def autolabel(rects,ax):
+    """Attach a text label above each bar in *rects*, displaying its height."""
+    for rect in rects:
+        height = rect.get_height()
+        ax.annotate('{:.2f}'.format(height),
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom')

@@ -5,7 +5,9 @@ import numpy as np
 import funciones as fn
 import locale
 import R2 as r2
+import R3 as r3
 import R4 as r4
+import R5 as r5
 
 locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
@@ -49,6 +51,8 @@ def R6():
         print('TODOS LOS VALORES SON CORRECTOS')
         
     r2.R2("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html")
+    r3.R3("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html", "resultados/R3_bis.png")
     r4.R4("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html")
+    r5.R5("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html", "resultados/R5_bis.png")
 
 R6()

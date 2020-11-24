@@ -1,13 +1,50 @@
 # -*- coding: utf-8 -*-
-
-import csv
+import R2 as r2
+import locale
 import numpy as np
 import funciones as fn
-import locale
+import matplotlib.pyplot as plt
 
 locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
-def R4(com, prov, salida):
+def R5(com, prov, salida, graph):
+    dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
+    dic = fn.obtener_mas_pobladas(dic, 10)
+    
+    # fn.print_dic(dic)
+    
+    dic_sum = {}
+    for d in dic.keys():
+        aux = np.array([])
+        for i in range(int(len(dic[d])/2)):
+            aux = np.append(aux, (dic[d][i] + dic[d][i+8]))
+            
+        dic_sum[d] = aux
+    
+    # fn.print_dic(dic_sum)
+    
+    list_years = []
+    for i in range(2017, 2009, -1):
+        list_years.append(i)
+        
+    # print(list_years)
+    
+    fig, ax = plt.subplots()
+    ax.set_ylabel('Población')
+    ax.set_title('Variación de la población')
+    
+    
+    for d in dic_sum.keys():
+        ax.plot(list_years, dic_sum[d], marker='o', label=d)
+        
+        
+    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        
+    fig.set_size_inches(12.5,5.5)
+    fig.tight_layout()
+    
+    plt.savefig(graph,bbox_inches='tight')
+    
     dic, var_abs, var_rel = fn.obtener_var_abs_rel(10,25)
     dic_cod = fn.obtener_provincias_por_comunidad(com, prov)
      
@@ -42,8 +79,11 @@ def R4(com, prov, salida):
         table += '</tr>'
     
     table += '</tbody></table>'
-    # print(table)
     
-    fn.escribir_archivo(salida, table)
-
-R4("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomas.html")
+    graph = graph.replace("resultados/","")
+    
+    page = '<img src="' + graph + '">' + table
+    
+    fn.escribir_archivo(salida, page)
+    
+R5("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomas.html", "resultados/R5.png")

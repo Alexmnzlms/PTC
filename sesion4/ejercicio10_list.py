@@ -26,8 +26,6 @@ list_letras = []
 for i in entrada:
     list_letras.append(i)
 
-list_letras.sort()
-
 list_cont = []
 for i in range(97,123):
     cont = list_letras.count(chr(i))

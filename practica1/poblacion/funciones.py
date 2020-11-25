@@ -2,6 +2,9 @@
 
 import numpy as np
 from bs4 import BeautifulSoup
+import locale
+
+locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
 def compare_float(a, b):
     epsilon = 0.0001
@@ -153,7 +156,7 @@ def obtener_provincias_por_comunidad(com_aut, prov):
         try:
             dic_cod[provincias[i]] = np.append(dic_cod[provincias[i]], provincias[i+1])
         except:
-            print('Clave no encontrada:', provincias[i])
+            pass
     
     # print()
     # print('Provincias que pertenecen a cada comunidad:')
@@ -181,7 +184,7 @@ def diccionario_pob_com(com, prov, ruta):
             dic_datos[indice[0]] = np.append(dic_datos[indice[0]], linea[9:len(linea) - 1])
             dic_datos[indice[0]] = list(map(lambda x: float(x), dic_datos[indice[0]]))
         except:
-            print('Clave no encontrada:', indice[0])
+            pass
     
     # fn.print_dic(dic_datos)
     
@@ -237,3 +240,71 @@ def autolabel(rects,ax):
                     xytext=(0, 3),  # 3 points vertical offset
                     textcoords="offset points",
                     ha='center', va='bottom')
+   
+def generar_var_abs_rel(dic_cod, dic, var_abs, var_rel):
+    var_abs_com = {}
+    var_rel_com = {}
+    for c in dic_cod.keys():
+        var_abs_com[c] = np.zeros(14)
+        var_rel_com[c] = np.zeros(14)
+    
+    for c in dic_cod.keys():
+        for p in dic_cod[c]:
+            for i in range(len(dic[p])-1):
+                var_abs_com[c][i] += var_abs[p][i]
+                var_rel_com[c][i] += var_rel[p][i]
+                # print(c,p,i,var_abs[p][i],var_rel[p][i],var_abs_com[c][i],var_rel_com[c][i])
+    
+    return var_abs_com, var_rel_com
+
+def tabla_var_provincias(dic, variaciones_absolutas, variaciones_relativas):
+    table = '<table><thead><tr><th rowspan="2"></th><th colspan="7">Variación absoluta</th><th colspan="7">Variación relativa</th>'
+    table += '</tr><tr><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td></tr></thead>'
+    table += '<tbody>'
+    
+    for d in dic.keys():
+        table += ('<tr><td>' + str(d) + '</td>')
+        for i in variaciones_absolutas[d]:
+             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
+        for i in variaciones_relativas[d]:
+             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
+        table += '</tr>'
+    
+    table += '</body></table>'
+    # print(table)
+    
+    return table
+
+def tabla_pob_com_autonoma(dic_datos_com):
+    table = '<table><thead><tr><th rowspan="2"></th><th colspan="7">Población de Hombres</th><th colspan="7">Población de Mujeres</th>'
+    table += '</tr><tr><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2010</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2010</td></tr></thead>'
+    table += '<tbody>'
+        
+    for d in dic_datos_com.keys():
+        table += ('<tr><td>' + str(d) + '</td>')
+        for i in dic_datos_com[d]:
+             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
+        table += '</tr>'
+    table += '</body></table>'
+    
+    return table
+
+def tabla_var_com_autonoma(dic_cod, var_abs_com, var_rel_com):
+    table = '<table><thead><tr><th></th><th colspan="14">Variación absoluta</th><th colspan="14">Variación relativa</th></tr></thead>'
+    table += '<tbody><tr><td></td><td colspan="7">Hombres</td><td colspan="7">Mujeres</td><td colspan="7">Hombres</td><td colspan="7">Mujeres</td></tr><tr><td></td>'
+    table += '<td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td></tr>'
+    
+    for d in dic_cod.keys():
+        table += ('<tr><td>' + str(d) + '</td>')
+        for i in var_abs_com[d]:
+             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
+        for i in var_rel_com[d]:
+             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
+        table += '</tr>'
+    
+    table += '</tbody></table>'
+    
+    # print(table)
+    
+    return table
+    

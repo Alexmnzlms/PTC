@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import R2 as r2
 import locale
 import numpy as np
 import funciones as fn
@@ -8,7 +7,7 @@ import matplotlib.pyplot as plt
 
 locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
-def R3(com, prov, salida, graph):
+def main(com, prov, salida, graph):
     
     dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     
@@ -70,21 +69,13 @@ def R3(com, prov, salida, graph):
     
     plt.savefig(graph,bbox_inches='tight')
     
-    table = '<table><thead><tr><th rowspan="2"></th><th colspan="7">Población de Hombres</th><th colspan="7">Población de Mujeres</th>'
-    table += '</tr><tr><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2010</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2010</td></tr></thead>'
-    table += '<tbody>'
-    
-    for d in dic.keys():
-        table += ('<tr><td>' + str(d) + '</td>')
-        for i in dic[d]:
-             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
-        table += '</tr>'
-    table += '</body></table>'
+    table = fn.tabla_pob_com_autonoma(dic)
     
     graph = graph.replace("resultados/","")
     
     page = '<img src="' + graph + '">' + table
     
     fn.escribir_archivo(salida, page)
-    
-R3("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomas.html", "resultados/R3.png")
+
+if __name__ == "__main__":      
+    main("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomas.html", "resultados/R3.png")

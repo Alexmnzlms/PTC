@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import R2 as r2
+
 import locale
 import numpy as np
 import funciones as fn
@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
-def R5(com, prov, salida, graph):
+def main(com, prov, salida, graph):
     dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     dic = fn.obtener_mas_pobladas(dic, 10)
     
@@ -53,37 +53,15 @@ def R5(com, prov, salida, graph):
     # fn.print_dic(var_abs)
     # fn.print_dic(var_rel)
     
-    var_abs_com = {}
-    var_rel_com = {}
-    for c in dic_cod.keys():
-        var_abs_com[c] = np.zeros(14)
-        var_rel_com[c] = np.zeros(14)
+    var_abs_com, var_rel_com = fn.generar_var_abs_rel(dic_cod, dic, var_abs, var_rel)
     
-    for c in dic_cod.keys():
-        for p in dic_cod[c]:
-            for i in range(len(dic[p])-1):
-                var_abs_com[c][i] += var_abs[p][i]
-                var_rel_com[c][i] += var_rel[p][i]
-                # print(c,p,i,var_abs[p][i],var_rel[p][i],var_abs_com[c][i],var_rel_com[c][i])
-    
-    table = '<table><thead><tr><th></th><th colspan="14">Variación absoluta</th><th colspan="14">Variación relativa</th></tr></thead>'
-    table += '<tbody><tr><td></td><td colspan="7">Hombres</td><td colspan="7">Mujeres</td><td colspan="7">Hombres</td><td colspan="7">Mujeres</td></tr><tr><td></td>'
-    table += '<td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td><td>2017</td><td>2016</td><td>2015</td><td>2014</td><td>2013</td><td>2012</td><td>2011</td></tr>'
-    
-    for d in dic_cod.keys():
-        table += ('<tr><td>' + str(d) + '</td>')
-        for i in var_abs_com[d]:
-             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
-        for i in var_rel_com[d]:
-             table += ('<td>' + locale.format_string('%.2f',i, grouping=True) + '</td>')
-        table += '</tr>'
-    
-    table += '</tbody></table>'
+    table = fn.tabla_var_com_autonoma(dic_cod, var_abs_com, var_rel_com)
     
     graph = graph.replace("resultados/","")
     
     page = '<img src="' + graph + '">' + table
     
     fn.escribir_archivo(salida, page)
-    
-R5("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomas.html", "resultados/R5.png")
+
+if __name__ == "__main__":      
+    main("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomas.html", "resultados/R5.png")

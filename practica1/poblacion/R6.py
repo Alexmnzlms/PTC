@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import csv
-import numpy as np
 import funciones as fn
 import locale
 import R2 as r2
@@ -11,7 +9,7 @@ import R5 as r5
 
 locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
-def R6():
+def main():
     listaValores = fn.obtener_tabla_html("resultados/variacionProvincias.html")
     
     listaValores1 = fn.obtener_tabla_html("entradas/variacionProvincias2011-17.htm")
@@ -27,7 +25,7 @@ def R6():
         try:
             listaValoresMod.append(float(listaValores[i]))
         except:
-            print(listaValores[i], 'no es un numero')
+            pass
         
     for i in range(len(listaValores1)):
         listaValores1[i] = listaValores1[i].replace(".","")
@@ -50,9 +48,10 @@ def R6():
     if not fallo:
         print('TODOS LOS VALORES SON CORRECTOS')
         
-    r2.R2("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html")
-    r3.R3("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html", "resultados/R3_bis.png")
-    r4.R4("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html")
-    r5.R5("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html", "resultados/R5_bis.png")
+    r2.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html")
+    r3.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html", "resultados/R3_bis.png")
+    r4.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html")
+    r5.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html", "resultados/R5_bis.png")
 
-R6()
+if __name__ == "__main__":  
+    main()

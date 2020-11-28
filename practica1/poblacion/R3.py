@@ -9,9 +9,9 @@ locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
 def main(com, prov, salida, graph):
     
-    dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
+    dic_og = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     
-    dic = fn.obtener_mas_pobladas(dic, 10)
+    dic = fn.obtener_mas_pobladas(dic_og, 10)
     
     dic_total = {}
     for d in dic.keys():
@@ -65,7 +65,7 @@ def main(com, prov, salida, graph):
     
     plt.savefig(graph,bbox_inches='tight')
     
-    table = fn.tabla_pob_com_autonoma(dic)
+    table = fn.tabla_pob_com_autonoma(dic_og)
     
     graph = graph.replace("resultados/","")
     

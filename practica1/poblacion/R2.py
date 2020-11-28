@@ -10,6 +10,8 @@ def main(com, prov, salida):
     dic_datos_com = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     
     table = fn.tabla_pob_com_autonoma(dic_datos_com)
+    
+    print(table)
         
     fn.escribir_archivo(salida, table)
 

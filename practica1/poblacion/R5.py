@@ -11,8 +11,6 @@ def main(com, prov, salida, graph):
     dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     dic = fn.obtener_mas_pobladas(dic, 10)
     
-    # fn.print_dic(dic)
-    
     dic_sum = {}
     for d in dic.keys():
         aux = np.array([])
@@ -21,14 +19,10 @@ def main(com, prov, salida, graph):
             
         dic_sum[d] = aux
     
-    # fn.print_dic(dic_sum)
-    
     list_years = []
     for i in range(2017, 2009, -1):
         list_years.append(i)
         
-    # print(list_years)
-    
     fig, ax = plt.subplots()
     ax.set_ylabel('Población')
     ax.set_title('Variación de la población')
@@ -47,11 +41,6 @@ def main(com, prov, salida, graph):
     
     dic, var_abs, var_rel = fn.obtener_var_abs_rel(10,25)
     dic_cod = fn.obtener_provincias_por_comunidad(com, prov)
-     
-    # fn.print_dic(dic)
-    # fn.print_dic(dic_cod)
-    # fn.print_dic(var_abs)
-    # fn.print_dic(var_rel)
     
     var_abs_com, var_rel_com = fn.generar_var_abs_rel(dic_cod, dic, var_abs, var_rel)
     

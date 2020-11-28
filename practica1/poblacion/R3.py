@@ -13,8 +13,6 @@ def main(com, prov, salida, graph):
     
     dic = fn.obtener_mas_pobladas(dic, 10)
     
-    # fn.print_dic(dic)
-    
     dic_total = {}
     for d in dic.keys():
         cont = 0.0
@@ -34,8 +32,6 @@ def main(com, prov, salida, graph):
         pob_muj = cont / med
             
         dic_total[d] = np.array([pob_hom,pob_muj])
-        
-    # fn.print_dic(dic_total)
     
     list_keys = []
     list_hom = []

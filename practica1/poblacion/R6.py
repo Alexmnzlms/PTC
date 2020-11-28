@@ -34,10 +34,6 @@ def main():
     for i in range(len(listaValores1)):
         listaValores1[i] = float(listaValores1[i])
     
-    # print(listaValoresMod)
-    # print('--------------------------------------------------------------------------------------------')
-    # print(listaValores1)
-    
     fallo = False
     for i,j in zip(listaValoresMod,listaValores1):
         if i != j:

@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+'''
+Colección de funciones auxiliares
+
+Autor:Alejandro Manzanares Lemus
+'''
 
 import numpy as np
 from bs4 import BeautifulSoup
@@ -25,7 +30,7 @@ def variacion_relativa(a,b):
     return sol
 
 def pasar_exponente_decimal(a):
-    # Pasa de formato 1.45E10 a 145...
+    # Pasa de formato 1.45E10 a 14500...
     exp = int(a[-1::1])
     a = float(a[:len(a)-2])
     a = a * (10 ** exp)

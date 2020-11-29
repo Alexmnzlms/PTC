@@ -16,6 +16,7 @@ locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
 def main(com, prov, salida):
     dic, var_abs, var_rel = fn.obtener_var_abs_rel(10,25)
+    
     dic_cod = fn.obtener_provincias_por_comunidad(com, prov)
     
     var_abs_com, var_rel_com = fn.generar_var_abs_rel(dic_cod, dic, var_abs, var_rel)

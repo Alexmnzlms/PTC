@@ -16,6 +16,7 @@ locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
 def main(com, prov, salida, graph):
     dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
+    
     dic = fn.obtener_mas_pobladas(dic, 10)
     
     # Obtenemos la suma de los datos

@@ -1,4 +1,13 @@
 # -*- coding: utf-8 -*-
+'''
+R4. Generar una página web 3 (fichero variacionComAutonomas.html) con una tabla con la
+variación de población por comunidades autónomas desde el año 2011 a 2017, indicando variación
+absoluta, relativa y desagregando dicha información por sexos, es decir, variación absoluta (hombres,
+mujeres) y relativa (hombres, mujeres). Para los cálculos, hay que actuar de manera semejante que en el
+apartado R1.
+
+Autor:Alejandro Manzanares Lemus
+'''
 
 import funciones as fn
 import locale

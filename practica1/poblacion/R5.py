@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+'''
+R5. Usando Matplotlib, para las 10 comunidades elegidas en el punto R3 generar un gráfico de líneas
+que refleje la evolución de la población total de cada comunidad autónoma desde el año 2010 a 2017,
+salvar el gráfico a fichero e incorporarlo a la página web 3 del punto R4.
+
+Autor:Alejandro Manzanares Lemus
+'''
 
 import locale
 import numpy as np
@@ -11,6 +18,8 @@ def main(com, prov, salida, graph):
     dic = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     dic = fn.obtener_mas_pobladas(dic, 10)
     
+    # Obtenemos la suma de los datos
+    
     dic_sum = {}
     for d in dic.keys():
         aux = np.array([])
@@ -18,6 +27,8 @@ def main(com, prov, salida, graph):
             aux = np.append(aux, (dic[d][i] + dic[d][i+8]))
             
         dic_sum[d] = aux
+    
+    # Generamos el gráfico
     
     list_years = []
     for i in range(2017, 2009, -1):
@@ -45,6 +56,8 @@ def main(com, prov, salida, graph):
     var_abs_com, var_rel_com = fn.generar_var_abs_rel(dic_cod, dic, var_abs, var_rel)
     
     table = fn.tabla_var_com_autonoma(dic_cod, var_abs_com, var_rel_com)
+    
+    # Insertamos el gráfico en el html
     
     graph = graph.replace("resultados/","")
     

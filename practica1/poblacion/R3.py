@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+'''
+R3. Usando Matplotlib, para las 10 comunidades con más población media de 2010 a 2017, generar un
+gráfico de columnas que indique la población de hombres y mujeres en el año 2017, salvar el gráfico a
+fichero e incorporarlo a la página web 2 del punto R2.
+
+Autor:Alejandro Manzanares Lemus
+'''
 
 import locale
 import numpy as np
@@ -12,6 +19,8 @@ def main(com, prov, salida, graph):
     dic_og = fn.diccionario_pob_com(com, prov, "entradas/poblacionProvinciasHM2010-17.csv")
     
     dic = fn.obtener_mas_pobladas(dic_og, 10)
+    
+    # Obtenemos los datos medios
     
     dic_total = {}
     for d in dic.keys():
@@ -32,6 +41,8 @@ def main(com, prov, salida, graph):
         pob_muj = cont / med
             
         dic_total[d] = np.array([pob_hom,pob_muj])
+    
+    # Generamos el gráfico
     
     list_keys = []
     list_hom = []
@@ -64,6 +75,8 @@ def main(com, prov, salida, graph):
     fig.tight_layout()
     
     plt.savefig(graph,bbox_inches='tight')
+    
+    # Insertamos el gráfico en el html
     
     table = fn.tabla_pob_com_autonoma(dic_og)
     

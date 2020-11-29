@@ -7,6 +7,7 @@ import locale
 locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
 
 def compare_float(a, b):
+    # Compara si dos números enteros son iguales
     epsilon = 0.0001
     if a - b > epsilon:
         return False
@@ -14,20 +15,24 @@ def compare_float(a, b):
         return True
 
 def variacion_absoluta(a,b):
+    # Formula de la variación absoluta
     sol = a - b
     return sol
 
 def variacion_relativa(a,b):
+    # Formula de la variación relativa
     sol = (a / b) * 100.0
     return sol
 
 def pasar_exponente_decimal(a):
+    # Pasa de formato 1.45E10 a 145...
     exp = int(a[-1::1])
     a = float(a[:len(a)-2])
     a = a * (10 ** exp)
     return int(a + 0.5)
 
 def eliminar_valor_lista(lista,valor):
+    # Elimina el valor valor de la lista lista
     l = []
     for v in lista:
         if v != valor:
@@ -36,10 +41,13 @@ def eliminar_valor_lista(lista,valor):
     return l
 
 def print_dic(dic):
+    # Imprime un diccionario que contiene un numpy array asociado a una clave
+    # de forma que sea visualmente agrabable
     for d in dic:
         print(d, ':', len(dic[d]), dic[d])
         
 def open_csv_data(ruta): 
+    # Abre un archivo CSV y devuelve los datos de la tabla
     datos = open(ruta, "r", encoding="utf-8")
     
     tabla = datos.read()
@@ -58,11 +66,16 @@ def open_csv_data(ruta):
     return data
 
 def escribir_archivo(ruta, contenido):
+    # Escribe el contenido de contenido en el archivo ruta
     f = open(ruta,'w', encoding="utf8" )
     f.write(contenido)
     f.close()
     
 def obtener_var_abs_rel(col_i, col_f):
+    # Obtiene la varianza absoluta y relativa de una tabla csv entre
+    # las columnas col_i y col_f
+    # Devuelve el diccionario con las claves y los valores, 
+    # las varianzas absolutas y las relativas
     data = open_csv_data("entradas/poblacionProvinciasHM2010-17.csv")
     
     dic = {}
@@ -91,6 +104,7 @@ def obtener_var_abs_rel(col_i, col_f):
     return dic, variaciones_absolutas, variaciones_relativas
     
 def obtener_tabla_html(ruta):
+    # Obtiene el contenido de la tabla html que hay en ruta
     listaValores = []
     
     html = open(ruta, "r", encoding="utf-8")
@@ -106,6 +120,8 @@ def obtener_tabla_html(ruta):
     return listaValores
     
 def obtener_provincias_por_comunidad(com_aut, prov):
+    # Devuelve un diccionario en que se asocia las provincias que forman
+    # cada comunidad autonoma
     listaValores = obtener_tabla_html(com_aut)
     
     comunidades = np.array([])
@@ -137,6 +153,8 @@ def obtener_provincias_por_comunidad(com_aut, prov):
     return dic_cod
 
 def diccionario_pob_com(com, prov, ruta):
+    # Devuelve un diccionario en que se asocia a cada comunidad un numpy array 
+    # con la población de hombres y mujeres entre 2017 y 2010
     dic_cod = obtener_provincias_por_comunidad(com, prov)
         
     dic_datos = {}
@@ -171,7 +189,7 @@ def diccionario_pob_com(com, prov, ruta):
     return dic_datos_com
 
 def obtener_mas_pobladas(dic, num):
-
+    # Devuelve un diccionario con las num comunidades más pobladas de dic
     dic_aux = {}
     
     for d in dic.keys():
@@ -199,6 +217,8 @@ def obtener_mas_pobladas(dic, num):
     return dic_mp
 
 def autolabel(rects,ax):
+    # Funcion recogida de la documentación oficial de matplotlib
+    # que sirve para configurar la leyenda de colores de gráfico.
     """Attach a text label above each bar in *rects*, displaying its height."""
     for rect in rects:
         height = rect.get_height()
@@ -209,6 +229,8 @@ def autolabel(rects,ax):
                     ha='center', va='bottom')
    
 def generar_var_abs_rel(dic_cod, dic, var_abs, var_rel):
+    # Devuelve las varianzas absoluta y relativas acumuladas
+    # para cada comunidad
     var_abs_com = {}
     var_rel_com = {}
     for c in dic_cod.keys():
@@ -224,6 +246,7 @@ def generar_var_abs_rel(dic_cod, dic, var_abs, var_rel):
     return var_abs_com, var_rel_com
 
 def css():
+    # Estilo css que utilizan las tablas html
     css = '<style type="text/css">'
     css += '.tg  {border-collapse:collapse;border-spacing:0;}'
     css += '.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;'
@@ -237,7 +260,7 @@ def css():
     return css
 
 def tabla_var_provincias(dic, variaciones_absolutas, variaciones_relativas):
-
+    # Tabla html de la variacón absoluta y relativa por año en provincias
     style = css()
     
     table = '<table class="tg">'
@@ -268,7 +291,7 @@ def tabla_var_provincias(dic, variaciones_absolutas, variaciones_relativas):
     return style + table
 
 def tabla_pob_com_autonoma(dic_datos_com):
-    
+    # Tabla html de la población de hombres y mujeres por año en comunidades
     style = css()
     
     table = '<table class="tg">'
@@ -296,7 +319,8 @@ def tabla_pob_com_autonoma(dic_datos_com):
     return style + table
 
 def tabla_var_com_autonoma(dic_cod, var_abs_com, var_rel_com):
-    
+     # Tabla html de la variación absoluta y relativa de hombres y mujeres
+     # por año en comunidades
     style = css()
     
     table = '<table class="tg"><thead><tr>'

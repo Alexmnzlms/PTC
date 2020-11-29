@@ -60,11 +60,11 @@ def main(com, prov, salida, graph):
     
     # Insertamos el gráfico en el html
     
-    graph = graph.replace("resultados/","")
+    graph = graph.replace("imagenes","../imagenes")
     
     page = '<img src="' + graph + '">' + table
     
     fn.escribir_archivo(salida, page)
 
 if __name__ == "__main__":      
-    main("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomas.html", "resultados/R5.png")
+    main("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomas.html", "imagenes/R5.png")

@@ -80,11 +80,11 @@ def main(com, prov, salida, graph):
     
     table = fn.tabla_pob_com_autonoma(dic_og)
     
-    graph = graph.replace("resultados/","")
+    graph = graph.replace("imagenes","../imagenes")
     
     page = '<img src="' + graph + '">' + table
     
     fn.escribir_archivo(salida, page)
 
 if __name__ == "__main__":      
-    main("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomas.html", "resultados/R3.png")
+    main("entradas/comunidadesAutonomas.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomas.html", "imagenes/R3.png")

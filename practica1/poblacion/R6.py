@@ -68,9 +68,9 @@ def main():
     # Generamos los resultados nuevos llamando a los scripts anteriores
     
     r2.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html")
-    r3.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html", "resultados/R3_bis.png")
+    r3.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/poblacionComAutonomasBis.html", "imagenes/R3_bis.png")
     r4.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html")
-    r5.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html", "resultados/R5_bis.png")
+    r5.main("entradas/comunidadesAutonomasBis.htm","entradas/comunidadAutonoma-Provincia.htm","resultados/variacionComAutonomasBis.html", "imagenes/R5_bis.png")
 
 if __name__ == "__main__":  
     main()

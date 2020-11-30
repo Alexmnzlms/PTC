@@ -5,22 +5,16 @@ Ejercicio 10
 Leer una frase de teclado e implementar una función que devuelva una lista de 
 pares en la quedebe aparecer cada letra junto a su frecuencia de aparición. 
 Los espacios no se deben tener encuenta. Dicha lista debe estar ordenada 
-atendiendo al orden ascendente de las letras. Ejemplo: antela entrada 
+atendiendo al orden ascendente de las letras. Ejemplo: ante la entrada 
 “programa” debe dar como salida 
 [('a', 2), ('g', 1), ('m',1), ('o', 1), ('p',1), ('r',2)].
 
 Autor: Alejandro Manzanares Lemus
 """
-
-entrada = input('Introduzca una frase por favor: ')
+entrada = input('Introduzca una frase: ')
 entrada = entrada.lower()
-entrada_sin_esp = ""
 
-for i in entrada:
-    if i != ' ':
-        entrada_sin_esp += i
-        
-entrada = entrada_sin_esp
+# Version sin usar los operadores de list
 
 list_cont = []
 for i in range(97,123):
@@ -30,5 +24,19 @@ for i in range(97,123):
             cont += 1
     if cont != 0:
         list_cont.append((chr(i),cont))
+
+print('\nVersión sin operadores list')        
+print('Las ocurrencias de cada letra son: ', list_cont)
+
+# Version list
+
+list_letras = list(entrada)
+
+list_cont = []
+for i in range(97,123):
+    cont = list_letras.count(chr(i))
+    if cont != 0:
+        list_cont.append((chr(i),cont))
         
+print('\nVersión list')   
 print('Las ocurrencias de cada letra son: ', list_cont)

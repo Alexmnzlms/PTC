@@ -5,6 +5,7 @@ practica2/V-REP_PRO_EDU_V3_6_2_Ubuntu18_04.tar.xz
 
 *.pdf
 *.zip
+*.odp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

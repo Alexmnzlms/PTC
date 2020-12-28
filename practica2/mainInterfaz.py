@@ -60,8 +60,9 @@ def capture():
 
 		permiso = askyesno("Práctica PTC Tkinter Robótica", pregunta)
 
-		if permiso and not os.path.isdir(carpeta):
-			os.mkdir(carpeta)
+		if permiso:
+			#Llamar script capturar.py
+			pass
 
 		agrupar['state'] = 'normal'
 
@@ -73,20 +74,27 @@ def capture():
 def group():
 	global excaract
 
+	# Llamar script agrupar.py
+
 	excaract['state'] = 'normal'
 
 def extraer():
 	global enclasif
+
+	# Llamar script caracteristicas.py
 
 	enclasif['state'] = 'normal'
 
 def entrenar():
 	global predecir
 
+	# Llamar script clasificarSVM.py
+
 	predecir['state'] = 'normal'
 
 def predict():
-	return 0
+	# Llamar script predecir.py
+	pass
 
 def change():
 	global varit, varcer, varmed, varlej, varmin, varmax, varud, params

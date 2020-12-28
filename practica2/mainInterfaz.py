@@ -11,6 +11,12 @@ from tkinter.messagebox import *
 import vrep
 import os
 import parametros as param
+import capturar as capture_py
+import agrupar as group_py
+import caracteristicas as caract_py
+import clasificarSVM as svm_py
+import predecir as predict_py
+
 
 params = param.Parametros(50,0.5,1.5,2.5,0,0,0)
 
@@ -62,7 +68,7 @@ def capture():
 
 		if permiso:
 			#Llamar script capturar.py
-			pass
+			capture_py.capturar()
 
 		agrupar['state'] = 'normal'
 
@@ -75,6 +81,7 @@ def group():
 	global excaract
 
 	# Llamar script agrupar.py
+	group_py.agrupar()
 
 	excaract['state'] = 'normal'
 
@@ -82,6 +89,7 @@ def extraer():
 	global enclasif
 
 	# Llamar script caracteristicas.py
+	caract_py.caracteristicas()
 
 	enclasif['state'] = 'normal'
 
@@ -89,12 +97,13 @@ def entrenar():
 	global predecir
 
 	# Llamar script clasificarSVM.py
+	svm_py.clasificarSVM()
 
 	predecir['state'] = 'normal'
 
 def predict():
 	# Llamar script predecir.py
-	pass
+	predict_py.predecir()
 
 def change():
 	global varit, varcer, varmed, varlej, varmin, varmax, varud, params

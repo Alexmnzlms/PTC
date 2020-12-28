@@ -221,7 +221,7 @@ vrep.simxFinish(clientID)
 #cerramos las ventanas
 cv2.destroyAllWindows()
 
-finFichero={"Iteraciones totales":iteracion}
+finFichero={"Iteraciones totales":iteracion-1}
 #ficheroLaser.write('{}\n'.format(json.dumps(finFichero)))
 ficheroLaser.write(json.dumps(finFichero)+'\n')
 ficheroLaser.close()

@@ -35,6 +35,12 @@ def conectar_con_VREP():
 		capturar['state'] = 'normal'
 		detydesc['state'] = 'normal'
 		detenido = False
+
+		agrupar['state'] = 'normal'
+		excaract['state'] = 'normal'
+		enclasif['state'] = 'normal'
+		predecir['state'] = 'normal'
+
 	else:
 		showerror("Práctica PTC Tkinter Robótica", "Debe iniciar el simulador")
 
@@ -48,10 +54,10 @@ def detener_y_desconectar():
 		status.set("No conectado a VREP")
 		capturar['state'] = 'disabled'
 		detydesc['state'] = 'disabled'
-		agrupar['state'] = 'disabled'
-		excaract['state'] = 'disabled'
-		enclasif['state'] = 'disabled'
-		predecir['state'] = 'disabled'
+		#agrupar['state'] = 'disabled'
+		#excaract['state'] = 'disabled'
+		#enclasif['state'] = 'disabled'
+		#predecir['state'] = 'disabled'
 		detenido = True
 
 def capture():
@@ -72,7 +78,7 @@ def capture():
 			#Llamar script capturar.py
 			capture_py.capturar(clientID, seleccion, params)
 
-		agrupar['state'] = 'normal'
+		#agrupar['state'] = 'normal'
 
 	else:
 		showwarning("Práctica PTC Tkinter Robótica", "Debe elegir un fichero de la lista")
@@ -83,7 +89,7 @@ def group():
 	# Llamar script agrupar.py
 	group_py.agrupar(params)
 
-	excaract['state'] = 'normal'
+	#excaract['state'] = 'normal'
 
 def extraer():
 	global enclasif
@@ -91,7 +97,7 @@ def extraer():
 	# Llamar script caracteristicas.py
 	caract_py.caracteristicas()
 
-	enclasif['state'] = 'normal'
+	#enclasif['state'] = 'normal'
 
 def entrenar():
 	global predecir
@@ -99,7 +105,7 @@ def entrenar():
 	# Llamar script clasificarSVM.py
 	svm_py.clasificarSVM()
 
-	predecir['state'] = 'normal'
+	#predecir['state'] = 'normal'
 
 def predict():
 	# Llamar script predecir.py

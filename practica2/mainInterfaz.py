@@ -18,7 +18,8 @@ import clasificarSVM as svm_py
 import predecir as predict_py
 
 
-params = param.Parametros(50,0.5,1.5,2.5,0,0,0)
+#params = param.Parametros(50,0.5,1.5,2.5,0,0,0)
+params = param.Parametros(1,0.5,1.5,2.5,2,10,0.05)
 
 
 def conectar_con_VREP():
@@ -73,8 +74,6 @@ def capture():
 
 		agrupar['state'] = 'normal'
 
-		params.show()
-
 	else:
 		showwarning("Práctica PTC Tkinter Robótica", "Debe elegir un fichero de la lista")
 
@@ -82,7 +81,7 @@ def group():
 	global excaract
 
 	# Llamar script agrupar.py
-	group_py.agrupar()
+	group_py.agrupar(params)
 
 	excaract['state'] = 'normal'
 

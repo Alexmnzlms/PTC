@@ -24,34 +24,27 @@ def check_file(file):
 
 def chek_tipo(tipo):
 	if tipo == 0:
-		return 'Bill'
+		return 'Bill#2'
 	elif tipo == 1:
-		return 'Bill#0'
+		return 'Bill'
 	elif tipo == 2:
-		return 'Cylinder'
+		return 'Cylinder1'
 	elif tipo == 3:
 		return 'Cylinder0'
+
+def check_dist(dist, params):
+	if dist == 0:
+		return params.cer, params.med
+	elif dist == 1:
+		return params.med, params.lej
+	elif dist == 2:
+		return params.lej, params.lej+1
 
 def capturar(clientID, file, params):
 	print("Ejecutando capturar...")
 
 	print(file)
 	params.show()
-
-	escena_base = os.getcwd() + "/escenaTest.ttt"
-	print(escena_base)
-
-	vrep.simxStopSimulation(clientID, vrep.simx_opmode_oneshot_wait)
-	print("Simulación terminada")
-
-	#vrep.simxCloseScene(clientID, vrep.simx_opmode_oneshot_wait)
-	#print("Escena cerrada")
-
-	vrep.simxLoadScene(clientID, escena_base, 0xFF, vrep.simx_opmode_oneshot_wait)
-	print("Escena",escena_base,"cargada")
-
-	#vrep.simxStartSimulation(clientID, vrep.simx_opmode_oneshot)
-	#print("Simulación comenzada")
 
 	_, robothandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx', vrep.simx_opmode_oneshot_wait)
 
@@ -69,6 +62,7 @@ def capturar(clientID, file, params):
 
 	tipo, dist = check_file(file)
 	objeto = chek_tipo(tipo)
+	dist_min, dist_max = check_dist(dist, params)
 
 	# obtenermos la referencia al objeto para moverlo
 	_, objecthandle = vrep.simxGetObjectHandle(clientID, objeto, vrep.simx_opmode_oneshot_wait)
@@ -89,7 +83,6 @@ def capturar(clientID, file, params):
 	if not os.path.isdir(direc):
 		sys.exit("Error: no existe el directorio "+ direc)
 
-
 	os.chdir(direc)
 	print("Cambiando el directorio de trabajo: ", os.getcwd())
 
@@ -103,13 +96,22 @@ def capturar(clientID, file, params):
 	ficheroLaser=open(jsonfile, "w")
 	ficheroLaser.write(json.dumps(cabecera)+'\n')
 
+	returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1,[dist_min,0.0,0.0],vrep.simx_opmode_oneshot)
+	returnCode = vrep.simxSetObjectOrientation(clientID, objecthandle, -1, [0.0,0.0,0.0], vrep.simx_opmode_oneshot)
+
+	print(dist_min,dist_max)
+
 	seguir=True
 	while(iteracion<=maxIter and seguir):
 
-		#Situamos donde queremos a la persona sentada, unidades en metros
-		returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1,[1+2.0*iteracion/10,-0.4,0.0],vrep.simx_opmode_oneshot)
+		#print("Rotación:", [0.0,0.0,3.05-(0.20)*iteracion])
 		#Cambiamos la orientacion, ojo está en radianes: Para pasar de grados a radianes hay que multiplicar por PI y dividir por 180
 		returnCode = vrep.simxSetObjectOrientation(clientID, objecthandle, -1, [0.0,0.0,3.05-(0.20)*iteracion], vrep.simx_opmode_oneshot)
+
+		#print("Posición:", [dist_min+dist_max*iteracion/maxIter,0.0,0.0])
+		#Situamos donde queremos a la persona sentada, unidades en metros
+		returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1,[dist_min+dist_max*iteracion/maxIter,0.0,0.0],vrep.simx_opmode_oneshot)
+
 
 		time.sleep(segundos) #esperamos un tiempo para que el ciclo de lectura de datos no sea muy rápido
 
@@ -141,45 +143,15 @@ def capturar(clientID, file, params):
 		img = np.rot90(img,2)
 		img = np.fliplr(img)
 		img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
-		#Convertir img a hsv y detectar colores
-		hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-		verde_bajos = np.array([49,50,50], dtype=np.uint8)
-		verde_altos = np.array([80, 255, 255], dtype=np.uint8)
-		mask = cv2.inRange(hsv, verde_bajos, verde_altos) #Crear mascara
-
-		#Limpiar mascara y buscar centro del objeto verde
-		moments = cv2.moments(mask)
-		area = moments['m00']
-		if(area > 200):
-			x = int(moments['m10']/moments['m00'])
-			y = int(moments['m01']/moments['m00'])
-			cv2.rectangle(img, (x, y), (x+2, y+2),(0,0,255), 2)
-			#Descomentar para printear la posicion del centro
-			#print(x,y)
-
-			#Si el centro del objeto esta en la parte central de la pantalla (aprox.), detener motores
-			if abs(x-256/2) < 15:
-				vrep.simxSetJointTargetVelocity(clientID, left_motor_handle,0,vrep.simx_opmode_streaming)
-				vrep.simxSetJointTargetVelocity(clientID, right_motor_handle,0,vrep.simx_opmode_streaming)
-
-			#Si no, girar los motores hacia la derecha o la izquierda
-			elif x > 256/2:
-				vrep.simxSetJointTargetVelocity(clientID, left_motor_handle,velocidad,vrep.simx_opmode_streaming)
-				vrep.simxSetJointTargetVelocity(clientID, right_motor_handle,-velocidad,vrep.simx_opmode_streaming)
-			elif x < 256/2:
-				vrep.simxSetJointTargetVelocity(clientID, left_motor_handle,-velocidad,vrep.simx_opmode_streaming)
-				vrep.simxSetJointTargetVelocity(clientID, right_motor_handle,velocidad,vrep.simx_opmode_streaming)
-
-		#Mostrar frame y salir con "ESC"
-		cv2.imshow('Image', img)
-		cv2.imshow('Mask', mask)
-
-		tecla = cv2.waitKey(5) & 0xFF
-		if tecla == 27:
-			seguir=False
+		if iteracion == 1 or iteracion == maxIter:
+			cv2.imwrite('Iteracion'+str(iteracion)+'.jpg', img)
 
 		iteracion=iteracion+1
+
+	finFichero={"Iteraciones totales":iteracion-1}
+	#ficheroLaser.write('{}\n'.format(json.dumps(finFichero)))
+	ficheroLaser.write(json.dumps(finFichero)+'\n')
+	ficheroLaser.close()
 
 	os.chdir(dir_p2)
 

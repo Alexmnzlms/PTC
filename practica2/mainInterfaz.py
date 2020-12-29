@@ -18,7 +18,8 @@ import clasificarSVM as svm_py
 import predecir as predict_py
 
 
-params = param.Parametros(50,0.5,1.5,2.5,0,0,0)
+# params = param.Parametros(50,0.5,1.5,2.5,0,0,0)
+params = param.Parametros(1,0.5,1.5,2.5,0,0,0)
 
 def conectar_con_VREP():
 	global root, status, clientID, capturar, detydesc, detenido
@@ -53,7 +54,7 @@ def detener_y_desconectar():
 		detenido = True
 
 def capture():
-	global lista, agrupar, params
+	global lista, agrupar, params, clientID
 
 	if lista.curselection():
 		seleccion = lista.get(lista.curselection()[0])
@@ -68,7 +69,7 @@ def capture():
 
 		if permiso:
 			#Llamar script capturar.py
-			capture_py.capturar()
+			capture_py.capturar(clientID, seleccion, params)
 
 		agrupar['state'] = 'normal'
 
@@ -130,6 +131,22 @@ def change():
 		params.ud = float(varud.get())
 
 	params.show()
+
+	varit.delete(0,'end')
+	varcer.delete(0,'end')
+	varmed.delete(0,'end')
+	varlej.delete(0,'end')
+	varmin.delete(0,'end')
+	varmax.delete(0,'end')
+	varud.delete(0,'end')
+
+	varit.insert(0,params.it)
+	varcer.insert(0,params.cer)
+	varmed.insert(0,params.med)
+	varlej.insert(0,params.lej)
+	varmin.insert(0,params.minp)
+	varmax.insert(0,params.maxp)
+	varud.insert(0,params.ud)
 
 def exit():
 	global root, detenido

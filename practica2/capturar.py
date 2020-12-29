@@ -129,7 +129,7 @@ def capturar(clientID, file, params):
 		print("Iteración: ", iteracion)
 		plt.clf()
 		plt.plot(puntosx, puntosy, 'r.')
-		plt.show()
+		#plt.show()
 
 		#Guardamos los puntosx, puntosy en el fichero JSON
 		lectura={"Iteracion":iteracion, "PuntosX":puntosx, "PuntosY":puntosy}

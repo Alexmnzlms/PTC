@@ -106,8 +106,9 @@ def entrenar():
 	#predecir['state'] = 'normal'
 
 def predict():
+	global clientID
 	# Llamar script predecir.py
-	predict_py.predecir()
+	predict_py.predecir(clientID, params)
 
 def change():
 	global varit, varcer, varmed, varlej, varmin, varmax, varud, params

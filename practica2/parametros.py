@@ -2,7 +2,6 @@
 Archivo: parametros.py
 Autor: Alejandro Manzanares Lemus
 
-
 '''
 
 class Parametros:

@@ -14,6 +14,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import GridSearchCV
 import pickle
+import os
 
 # import warnings filter
 from warnings import simplefilter
@@ -154,8 +155,8 @@ def clasificarSVM():
 	C: por defecto vale 1.0. Penaliza el error de clasificación de los ejemplos,
 	   a mayor valor más se ajusta al conjunto de ejemplos.
 	gamma: por defecto auto = 1/ num_características
-	    inversa del tamaño del "radio" del kernel. Una valor grande genera muchos
-	    conjuntos de radios pequeños
+		inversa del tamaño del "radio" del kernel. Una valor grande genera muchos
+		conjuntos de radios pequeños
 	'''
 	print("Clasificación con kernek de base radial con C=1 y gamma=auto")
 
@@ -169,7 +170,7 @@ def clasificarSVM():
 
 	acc_test=accuracy_score(y_test, y_pred)
 
-	print("Acc_test RBF: (TP+TN)/(T+P)  %0.4f" % acc_test)
+	print("Acc_test RBF: (TP+TN)/(T+P)	%0.4f" % acc_test)
 
 	print("Matriz de confusión Filas: verdad Columnas: predicción")
 	'''
@@ -208,7 +209,7 @@ def clasificarSVM():
 
 
 	param_grid={'C':[1,10,100,1000],
-	            'gamma': [0.001, 0.005, 0.01, 0.1]}
+				'gamma': [0.001, 0.005, 0.01, 0.1]}
 
 	clf=GridSearchCV(SVC(kernel='rbf', class_weight="balanced"), param_grid)
 
@@ -266,8 +267,23 @@ def clasificarSVM():
 	print("------------------------------------------------------------------")
 	print("Salvamos el mejor clasificador a disco, fichero clasificador.pkl")
 
+	# mostramos el directorio de trabajo y vemos si existe el dir para salvar los datos
+	dir_p2 = os.getcwd()
+	print("Directorio de trabajo es: ", os.getcwd())
+
+	direc = dir_p2 + "/predecir"
+
+	if not os.path.isdir(direc):
+		print("Creando el directorio " + direc)
+		os.mkdir(direc)
+
+	os.chdir(direc)
+	print("Cambiando el directorio de trabajo: ", os.getcwd())
+
 	# Guardamos el clasificador
 	with open("clasificador.pkl", "wb") as archivo:
 		pickle.dump(mejorSVC, archivo)
+
+	os.chdir(dir_p2)
 
 	print("------------------------------------------------------------------")

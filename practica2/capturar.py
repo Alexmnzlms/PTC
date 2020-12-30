@@ -1,3 +1,8 @@
+'''
+Archivo: capturar.py
+Autor: Alejandro Manzanares Lemus
+
+'''
 import parametros
 import vrep
 import sys

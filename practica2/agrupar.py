@@ -8,7 +8,8 @@ import json
 import os
 import sys
 import glob
-import geometria as geo
+import funciones as fn
+import funciones as fn
 
 def agrupar(params):
 	print("Ejecutando agrupar...")
@@ -90,37 +91,39 @@ def agrupar(params):
 		print("PuntosX: ", len(puntosX))
 		print("PuntosY: ", len(puntosY))
 
-		clusters = {}
+		#clusters = {}
 
-		n_puntos = 0
-		n_cluster = 0
-		puntosXcluster = []
-		puntosYcluster = []
+		#n_puntos = 0
+		#n_cluster = 0
+		#puntosXcluster = []
+		#puntosYcluster = []
 
-		puntosXcluster.append(puntosX[0])
-		puntosYcluster.append(puntosY[0])
-		n_puntos += 1
+		#puntosXcluster.append(puntosX[0])
+		#puntosYcluster.append(puntosY[0])
+		#n_puntos += 1
 
-		for i in range(1,len(puntosX)-1):
-			dist = geo.distancia_dos_puntos(puntosX[i], puntosY[i], puntosX[i+1], puntosY[i+1])
+		#for i in range(1,len(puntosX)-1):
+		#	dist = fn.distancia_dos_puntos(puntosX[i], puntosY[i], puntosX[i+1], puntosY[i+1])
 
-			if(dist > params.ud or n_puntos > params.maxp):
-				if n_puntos > params.minp:
-					clusters[n_cluster] = [n_puntos, puntosXcluster, puntosYcluster]
-					n_cluster += 1
-					n_puntos = 1
-					puntosXcluster = [puntosX[i+1]]
-					puntosYcluster = [puntosY[i+1]]
+		#	if(dist > params.ud or n_puntos > params.maxp):
+		#		if n_puntos > params.minp:
+		#			clusters[n_cluster] = [n_puntos, puntosXcluster, puntosYcluster]
+		#			n_cluster += 1
+		#			n_puntos = 1
+		#			puntosXcluster = [puntosX[i+1]]
+		#			puntosYcluster = [puntosY[i+1]]
 
-				else:
-					n_puntos = 1
-					puntosXcluster = [puntosX[i+1]]
-					puntosYcluser = [puntosY[i+1]]
+		#		else:
+		#			n_puntos = 1
+		#			puntosXcluster = [puntosX[i+1]]
+		#			puntosYcluser = [puntosY[i+1]]
 
-			else:
-				puntosXcluster.append(puntosX[i+1])
-				puntosYcluster.append(puntosY[i+1])
-				n_puntos += 1
+		#	else:
+		#		puntosXcluster.append(puntosX[i+1])
+		#		puntosYcluster.append(puntosY[i+1])
+		#		n_puntos += 1
+
+		clusters = fn.clusterizacion(puntosX,puntosY,params)
 
 		if caso == "positivo":
 			file = "clustersPiernas.json"

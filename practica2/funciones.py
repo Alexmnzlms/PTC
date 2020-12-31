@@ -22,6 +22,9 @@ def distancia_punto_recta(x1,x2,a,b,c):
 
 	return dist
 
+def punto_medio(x1,y1,x2,y2):
+    return (x1+x2)/2 , (y2+y1)/2
+
 def clusterizacion(puntosX, puntosY, params):
 	clusters = {}
 

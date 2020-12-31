@@ -18,7 +18,7 @@ import clasificarSVM as svm_py
 import predecir as predict_py
 
 
-params = param.Parametros(50,0.5,1.5,2.5,3,10,0.05)
+params = param.Parametros(50,0.5,1.5,2.5,3,10,0.03)
 
 def conectar_con_VREP():
 	global root, status, clientID, capturar, detydesc, detenido
@@ -34,11 +34,6 @@ def conectar_con_VREP():
 		detydesc['state'] = 'normal'
 		detenido = False
 
-		agrupar['state'] = 'normal'
-		excaract['state'] = 'normal'
-		enclasif['state'] = 'normal'
-		predecir['state'] = 'normal'
-
 	else:
 		showerror("Práctica PTC Tkinter Robótica", "Debe iniciar el simulador")
 
@@ -52,10 +47,6 @@ def detener_y_desconectar():
 		status.set("No conectado a VREP")
 		capturar['state'] = 'disabled'
 		detydesc['state'] = 'disabled'
-		#agrupar['state'] = 'disabled'
-		#excaract['state'] = 'disabled'
-		#enclasif['state'] = 'disabled'
-		#predecir['state'] = 'disabled'
 		detenido = True
 
 def capture():
@@ -76,10 +67,10 @@ def capture():
 			#Llamar script capturar.py
 			capture_py.capturar(clientID, seleccion, params)
 
-		#agrupar['state'] = 'normal'
-
 	else:
 		showwarning("Práctica PTC Tkinter Robótica", "Debe elegir un fichero de la lista")
+
+	agrupar['state'] = 'normal'
 
 def group():
 	global excaract
@@ -87,7 +78,7 @@ def group():
 	# Llamar script agrupar.py
 	group_py.agrupar(params)
 
-	#excaract['state'] = 'normal'
+	excaract['state'] = 'normal'
 
 def extraer():
 	global enclasif
@@ -95,7 +86,7 @@ def extraer():
 	# Llamar script caracteristicas.py
 	caract_py.caracteristicas()
 
-	#enclasif['state'] = 'normal'
+	enclasif['state'] = 'normal'
 
 def entrenar():
 	global predecir
@@ -103,12 +94,15 @@ def entrenar():
 	# Llamar script clasificarSVM.py
 	svm_py.clasificarSVM()
 
-	#predecir['state'] = 'normal'
+	predecir['state'] = 'normal'
 
 def predict():
 	global clientID
-	# Llamar script predecir.py
-	predict_py.predecir(clientID, params)
+	if detenido:
+		showwarning("Práctica PTC Tkinter Robótica", "No conectado a VREP")
+	else:
+		# Llamar script predecir.py
+		predict_py.predecir(clientID, params)
 
 def change():
 	global varit, varcer, varmed, varlej, varmin, varmax, varud, params

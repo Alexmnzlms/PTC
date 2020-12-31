@@ -105,10 +105,9 @@ def predecir(clientID, params):
 	for d in clusters.keys():
 		cluster = {"numero_cluster":d, "numero_puntos":clusters[d][0], "puntosX":clusters[d][1], "puntosY":clusters[d][2]}
 		fichero.write(json.dumps(cluster)+'\n')
-		for p in clusters[d][1]:
-			puntosx.append(p)
-		for p in clusters[d][2]:
-			puntosy.append(p)
+		for px, py in zip(clusters[d][1], clusters[d][2]):
+			puntosx.append(px)
+			puntosy.append(py)
 
 	plt.clf()
 	plt.plot(puntosx, puntosy, 'r.')
@@ -191,22 +190,75 @@ def predecir(clientID, params):
 		puntosYneg = []
 		for dic in objetos:
 			if prediccion[cont] == 0:
-				for p in dic['puntosX']:
-					puntosXneg.append(p)
-				for p in dic['puntosY']:
-					puntosYneg.append(p)
+				for px,py in zip(dic['puntosX'], dic['puntosY']):
+					puntosXneg.append(px)
+					puntosYneg.append(py)
 			else:
-				for p in dic['puntosX']:
-					puntosXpos.append(p)
-				for p in dic['puntosY']:
-					puntosYpos.append(p)
+				for px,py in zip(dic['puntosX'], dic['puntosY']):
+					puntosXpos.append(px)
+					puntosYpos.append(py)
 			cont += 1
 
-	plt.clf()
-	plt.plot(puntosXpos, puntosYpos, 'r.')
-	plt.plot(puntosXneg, puntosYneg, 'b.')
-	plt.savefig("prediccion.jpg")
+		plt.clf()
+		plt.plot(puntosXpos, puntosYpos, 'r.')
+		plt.plot(puntosXneg, puntosYneg, 'b.')
+		plt.savefig("prediccion_sin_centro.jpg")
 
+		centroides = []
+		for dic in objetos:
+			centrox = 0
+			centroy = 0
+			for px,py in zip(dic['puntosX'],dic['puntosY']):
+				centrox += px
+				centroy += py
+			centrox /= len(dic['puntosX'])
+			centroy /= len(dic['puntosY'])
+			centroide = {"numero_cluster": dic['numero_cluster'], "centroX":centrox, "centroY": centroy}
+			centroides.append(centroide)
+
+		distanciaCercana = 0.5
+
+		parejas = []
+		while(len(centroides) > 0):
+			centro = centroides[0]
+			del centroides[0]
+			cont = 0
+			pos = -1
+			for c in centroides:
+				mind = 1000.0
+				dist = fn.distancia_dos_puntos(centro['centroX'], centro['centroY'], c['centroX'], c['centroY'])
+				if dist < mind and dist < distanciaCercana and prediccion[centro['numero_cluster']] == prediccion[c['numero_cluster']]:
+					mind = dist
+					pos = cont
+				cont += 1
+			if pos != -1:
+				parejas.append((centro,centroides[pos]))
+				del centroides[pos]
+
+
+		centrosXneg = []
+		centrosXpos = []
+		centrosYneg = []
+		centrosYpos = []
+		for pareja in parejas:
+			x1 = pareja[0]['centroX']
+			y1 = pareja[0]['centroY']
+			x2 = pareja[1]['centroX']
+			y2 = pareja[1]['centroY']
+			xm, ym = fn.punto_medio(x1,y1,x2,y2)
+			if prediccion[pareja[0]['numero_cluster']] == 0:
+				centrosXneg.append(xm)
+				centrosYneg.append(ym)
+			else:
+				centrosXpos.append(xm)
+				centrosYpos.append(ym)
+
+		plt.clf()
+		plt.plot(puntosXpos, puntosYpos, 'r.')
+		plt.plot(puntosXneg, puntosYneg, 'b.')
+		plt.plot(centrosXpos, centrosYpos, 'ro')
+		plt.plot(centrosXneg, centrosYneg, 'bo')
+		plt.savefig("prediccion.jpg")
 
 
 

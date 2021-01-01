@@ -1,0 +1,43 @@
+\documentclass[10pt, a4paper]{aqademic}
+
+% Language and input encoding
+
+\usepackage[spanish]{babel}
+\selectlanguage{spanish}
+
+% Document settings
+
+%\usepackage[type=CC, modifier=by-nc-sa, version=4.0]{doclicense}
+\usepackage{graphicx}
+	\graphicspath{{img/}}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{minted}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\author{Alejandro Manzanares Lemus}
+\title{Práctica 2}
+\date{}
+
+% Document composition
+
+\begin{document}
+
+\AqMaketitle[cover    = cover,
+             org      = Programación Técnica y Científica,
+             url      = alexmnzlms@correo.ugr.es]
+\AqSetChapter{Script}
+\AqSetSection{}
+\tableofcontents
+
+% Document files
+\input{input/mainInterfaz.tex}
+\input{input/capturar.tex}
+\input{input/agrupar.tex}
+\input{input/caracteristicas.tex}
+\input{input/clasificarSVM.tex}
+\input{input/predecir.tex}
+\input{input/auxiliar.tex}
+
+\end{document}

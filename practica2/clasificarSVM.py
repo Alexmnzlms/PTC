@@ -90,7 +90,7 @@ def clasificarSVM():
 
 	svcLineal2 = SVC(kernel='linear')
 
-	scores = cross_val_score(svcLineal2, X, y, cv=5)
+	scores = cross_val_score(svcLineal2, X_train, y_train, cv=5)
 
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
@@ -140,7 +140,7 @@ def clasificarSVM():
 
 	svcPol2 = SVC(kernel='poly', degree=grado)
 
-	scores = cross_val_score(svcPol2, X, y, cv=5)
+	scores = cross_val_score(svcPol2, X_train, y_train, cv=5)
 
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
@@ -196,7 +196,7 @@ def clasificarSVM():
 
 	svcRBF2 = SVC(kernel='rbf', gamma='auto')
 
-	scores = cross_val_score(svcRBF2, X, y, cv=5)
+	scores = cross_val_score(svcRBF2, X_train, y_train, cv=5)
 
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
@@ -257,7 +257,7 @@ def clasificarSVM():
 
 	svcRBF2 = SVC(kernel='rbf', C=100, gamma=0.005)
 
-	scores = cross_val_score(svcRBF2, X, y, cv=5)
+	scores = cross_val_score(svcRBF2, X_train, y_train, cv=5)
 
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))

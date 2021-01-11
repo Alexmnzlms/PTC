@@ -37,7 +37,7 @@ def clusterizacion(puntosX, puntosY, params):
 	puntosYcluster.append(puntosY[0])
 	n_puntos += 1
 
-	for i in range(1,len(puntosX)-1):
+	for i in range(0,len(puntosX)-1):
 		dist = distancia_dos_puntos(puntosX[i], puntosY[i], puntosX[i+1], puntosY[i+1])
 
 		if(dist > params.ud or n_puntos >= params.maxp):

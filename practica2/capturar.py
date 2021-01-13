@@ -69,6 +69,9 @@ def capturar(clientID, file, params):
 	objeto = chek_tipo(tipo)
 	dist_min, dist_max = check_dist(dist, params)
 
+	if(objeto == 'Cylinder0' and dist_min == 0.5):
+		dist_min += 0.6
+
 	# obtenermos la referencia al objeto para moverlo
 	_, objecthandle = vrep.simxGetObjectHandle(clientID, objeto, vrep.simx_opmode_oneshot_wait)
 
@@ -110,27 +113,32 @@ def capturar(clientID, file, params):
 	for i in range(0,6):
 		listaMuros.append(muroBase+str(i))
 
-	for muro in listaMuros:
-		_, wallhandle = vrep.simxGetObjectHandle(clientID, muro, vrep.simx_opmode_oneshot_wait)
-		if(_ == 0):
-			returnCode, position = vrep.simxGetObjectPosition(clientID, wallhandle, -1, vrep.simx_opmode_oneshot_wait)
-			print(muro, position)
-			position[0] += dist_max
-			returnCode = vrep.simxSetObjectPosition(clientID, wallhandle, -1, position,vrep.simx_opmode_oneshot)
+	_, wallhandle = vrep.simxGetObjectHandle(clientID, listaMuros[4], vrep.simx_opmode_oneshot_wait)
+	if (_ == 0):
+		returnCode, position = vrep.simxGetObjectPosition(clientID, wallhandle, -1, vrep.simx_opmode_oneshot_wait)
+		dist_muro = position[0] - dist_max - 1.0
 
+		for muro in listaMuros:
+			_, wallhandle = vrep.simxGetObjectHandle(clientID, muro, vrep.simx_opmode_oneshot_wait)
+			returnCode, position = vrep.simxGetObjectPosition(clientID, wallhandle, -1, vrep.simx_opmode_oneshot_wait)
+			position[0] -= dist_muro
+			print(muro, position)
+			returnCode = vrep.simxSetObjectPosition(clientID, wallhandle, -1, position,vrep.simx_opmode_oneshot)
 
 	print(dist_min,dist_max)
 
 	seguir=True
 	while(iteracion<=maxIter and seguir):
 
-		#print("Rotación:", [0.0,0.0,3.05-(0.20)*iteracion])
-		#Cambiamos la orientacion, ojo está en radianes: Para pasar de grados a radianes hay que multiplicar por PI y dividir por 180
-		returnCode = vrep.simxSetObjectOrientation(clientID, objecthandle, -1, [0.0,0.0,3.05-(0.20)*iteracion], vrep.simx_opmode_oneshot)
+		ori = [0.0,0.0,(iteracion*12.56/maxIter) % 6.28]
+		pos = [dist_min+(dist_max-dist_min)*iteracion/maxIter,0.0,0.0]
+		print("Iteración:", iteracion, "Posición:", pos[0], "Orientación:", ori[2])
 
-		#print("Posición:", [dist_min+dist_max*iteracion/maxIter,0.0,0.0])
+		#Cambiamos la orientacion, ojo está en radianes: Para pasar de grados a radianes hay que multiplicar por PI y dividir por 180
+		returnCode = vrep.simxSetObjectOrientation(clientID, objecthandle, -1,ori,vrep.simx_opmode_oneshot)
+
 		#Situamos donde queremos a la persona sentada, unidades en metros
-		returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1,[dist_min+dist_max*iteracion/maxIter,0.0,0.0],vrep.simx_opmode_oneshot)
+		returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1, pos,vrep.simx_opmode_oneshot)
 
 
 		time.sleep(segundos) #esperamos un tiempo para que el ciclo de lectura de datos no sea muy rápido
@@ -146,7 +154,6 @@ def capturar(clientID, file, params):
 			puntosy.append(datosLaser[indice+2])
 			puntosz.append(datosLaser[indice])
 
-		print("Iteración: ", iteracion)
 		plt.clf()
 		plt.plot(puntosx, puntosy, 'r.')
 		#plt.show()

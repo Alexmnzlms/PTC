@@ -104,6 +104,21 @@ def capturar(clientID, file, params):
 	returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1,[dist_min,0.0,0.0],vrep.simx_opmode_oneshot)
 	returnCode = vrep.simxSetObjectOrientation(clientID, objecthandle, -1, [0.0,0.0,0.0], vrep.simx_opmode_oneshot)
 
+	muroBase = '80cmHighWall200cm'
+	listaMuros = []
+	listaMuros.append(muroBase)
+	for i in range(0,6):
+		listaMuros.append(muroBase+str(i))
+
+	for muro in listaMuros:
+		_, wallhandle = vrep.simxGetObjectHandle(clientID, muro, vrep.simx_opmode_oneshot_wait)
+		if(_ == 0):
+			returnCode, position = vrep.simxGetObjectPosition(clientID, wallhandle, -1, vrep.simx_opmode_oneshot_wait)
+			print(muro, position)
+			position[0] += dist_max
+			returnCode = vrep.simxSetObjectPosition(clientID, wallhandle, -1, position,vrep.simx_opmode_oneshot)
+
+
 	print(dist_min,dist_max)
 
 	seguir=True

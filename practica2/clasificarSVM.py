@@ -25,6 +25,9 @@ simplefilter(action='ignore', category=DeprecationWarning)
 def clasificarSVM():
 	print("Ejecutando clasificarSVM...")
 
+	clasificadores = []
+	scores_clasificadores = []
+
 	# Assign colum names to the dataset
 	colnames = ['perimetro', 'profundidad', 'anchura', 'clase']
 
@@ -92,6 +95,9 @@ def clasificarSVM():
 
 	scores = cross_val_score(svcLineal2, X_train, y_train, cv=5)
 
+	clasificadores.append(svcLineal2)
+	scores_clasificadores.append(scores.mean())
+
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
 	print("------------------------------------------------------------------")
@@ -141,6 +147,9 @@ def clasificarSVM():
 	svcPol2 = SVC(kernel='poly', degree=grado)
 
 	scores = cross_val_score(svcPol2, X_train, y_train, cv=5)
+
+	clasificadores.append(svcPol2)
+	scores_clasificadores.append(scores.mean())
 
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
@@ -198,6 +207,9 @@ def clasificarSVM():
 
 	scores = cross_val_score(svcRBF2, X_train, y_train, cv=5)
 
+	clasificadores.append(svcRBF2)
+	scores_clasificadores.append(scores.mean())
+
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
 	print("------------------------------------------------------------------")
@@ -208,8 +220,7 @@ def clasificarSVM():
 	print("Búsqueda de parámetros en un rango en el caso de RBF")
 
 
-	param_grid={'C':[1,10,100,1000],
-				'gamma': [0.001, 0.005, 0.01, 0.1]}
+	param_grid={'C':[1,10,100,1000], 'gamma': [0.001, 0.005, 0.01, 0.1]}
 
 	clf=GridSearchCV(SVC(kernel='rbf', class_weight="balanced"), param_grid)
 
@@ -250,14 +261,10 @@ def clasificarSVM():
 	print("f1-score es la media entre precisión y recall")
 	print(classification_report(y_test, y_pred))
 
+	scores = cross_val_score(mejorSVC, X_train, y_train, cv=5)
 
-
-	#realizando validación cruzada 5-cross validation, si hay 150 muestras
-	#entonces está usandos 30 muestras de ejemplo cada vez y eso lo realiza 5 veces
-
-	svcRBF2 = SVC(kernel='rbf', C=100, gamma=0.005)
-
-	scores = cross_val_score(svcRBF2, X_train, y_train, cv=5)
+	clasificadores.append(mejorSVC)
+	scores_clasificadores.append(scores.mean())
 
 	# exactitud media con intervalo de confianza del 95%
 	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
@@ -279,6 +286,22 @@ def clasificarSVM():
 
 	os.chdir(direc)
 	print("Cambiando el directorio de trabajo: ", os.getcwd())
+
+	print()
+	max = scores_clasificadores[0]
+	cont = 0
+	pos = 0
+
+	for clf,score in zip(clasificadores,scores_clasificadores):
+		if max < score:
+			pos = cont
+		print(clf, score)
+		cont += 1
+
+	mejorSVC = clasificadores[pos]
+	mejorScore = scores_clasificadores[pos]
+
+	print("\nEl mejor clasificador es:", mejorSVC, "con una score de", mejorScore)
 
 	# Guardamos el clasificador
 	with open("clasificador.pkl", "wb") as archivo:

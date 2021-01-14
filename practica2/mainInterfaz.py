@@ -18,7 +18,7 @@ import clasificarSVM as svm_py
 import predecir as predict_py
 
 
-params = param.Parametros(50,0.5,1.5,2.5,3,10,0.03)
+params = param.Parametros(50,0.5,1.5,2.5,3,25,0.05)
 
 def conectar_con_VREP():
 	global root, status, clientID, capturar, detydesc, detenido

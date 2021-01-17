@@ -8,7 +8,7 @@ Captura de los datos del laser 2D en diferentes situaciones
 import parametros
 import vrep
 import sys
-import cv2º
+import cv2
 import numpy as np
 import time
 import matplotlib.pyplot as plt

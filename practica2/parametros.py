@@ -2,6 +2,8 @@
 Archivo: parametros.py
 Autor: Alejandro Manzanares Lemus
 
+Implementación de la clase Parametros que permite almacenar los parametros
+que se utilizan en el programa
 '''
 
 class Parametros:

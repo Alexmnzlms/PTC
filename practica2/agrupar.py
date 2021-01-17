@@ -2,6 +2,8 @@
 Archivo: agrupar.py
 Autor: Alejandro Manzanares Lemus
 
+Script correspondiente al apartado 4.3
+Agrupar los puntos x,y en clústeres
 '''
 import matplotlib.pyplot as plt
 import json
@@ -16,17 +18,15 @@ def agrupar(params):
 
 	dir_p2 = os.getcwd()
 
+	#Repetimos para positivos y negativos
 	for caso in ["positivo","negativo"]:
 
-		# mostramos el directorio de trabajo y leemeos los datos del primero
-		print("Directorio de trabajo es: ", os.getcwd())
 		lista = caso + "*"
 		listaDir=sorted(glob.glob(lista))
 		numDir=len(listaDir)
 
 		if numDir > 0:
-			print("Numero de directorios: ", numDir)
-			print(listaDir)
+			print("Numero de directorios: ", numDir, listaDir)
 		else:
 			sys.exit("No hay directorios")
 
@@ -34,10 +34,11 @@ def agrupar(params):
 		puntosX = []
 		puntosY = []
 
+		#Para cada directorio de positivos o negativos
 		for directorio in listaDir:
 			os.chdir(directorio)
-			print("Cambiando el directorio de trabajo a:", os.getcwd())
 
+			#Segun en que carpeta estemos, actualizamos el fichero
 			if os.getcwd().find("positivo1") != -1:
 				file = "enPieCerca.json"
 			elif os.getcwd().find("positivo2") != -1:
@@ -77,7 +78,7 @@ def agrupar(params):
 			iterTotalesDict = objetos[len(objetos)-1]
 			iterTotales = iterTotalesDict['Iteraciones totales']
 
-
+			#Obtenemos los puntos
 			for i in range(iterTotales):
 				iteracion.append(objetos[i+1]['Iteracion'])
 				for x in objetos[i+1]['PuntosX']:
@@ -87,44 +88,15 @@ def agrupar(params):
 
 			os.chdir(dir_p2)
 
-		print("Iteración: ", len(iteracion))
+		#Mostramos por terminal el numero de iteraciones y puntos
+		print("Iteraciones: ", len(iteracion))
 		print("PuntosX: ", len(puntosX))
 		print("PuntosY: ", len(puntosY))
 
-		#clusters = {}
-
-		#n_puntos = 0
-		#n_cluster = 0
-		#puntosXcluster = []
-		#puntosYcluster = []
-
-		#puntosXcluster.append(puntosX[0])
-		#puntosYcluster.append(puntosY[0])
-		#n_puntos += 1
-
-		#for i in range(1,len(puntosX)-1):
-		#	dist = fn.distancia_dos_puntos(puntosX[i], puntosY[i], puntosX[i+1], puntosY[i+1])
-
-		#	if(dist > params.ud or n_puntos > params.maxp):
-		#		if n_puntos > params.minp:
-		#			clusters[n_cluster] = [n_puntos, puntosXcluster, puntosYcluster]
-		#			n_cluster += 1
-		#			n_puntos = 1
-		#			puntosXcluster = [puntosX[i+1]]
-		#			puntosYcluster = [puntosY[i+1]]
-
-		#		else:
-		#			n_puntos = 1
-		#			puntosXcluster = [puntosX[i+1]]
-		#			puntosYcluser = [puntosY[i+1]]
-
-		#	else:
-		#		puntosXcluster.append(puntosX[i+1])
-		#		puntosYcluster.append(puntosY[i+1])
-		#		n_puntos += 1
-
+		#Calculamos los clusteres
 		clusters = fn.clusterizacion(puntosX,puntosY,params)
 
+		#Guardamos los clusteres en los archivos correspondientes
 		if caso == "positivo":
 			file = "clustersPiernas.json"
 		elif caso == "negativo":

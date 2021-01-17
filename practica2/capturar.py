@@ -2,17 +2,20 @@
 Archivo: capturar.py
 Autor: Alejandro Manzanares Lemus
 
+Script correspondiente al apartado 4.2
+Captura de los datos del laser 2D en diferentes situaciones
 '''
 import parametros
 import vrep
 import sys
-import cv2
+import cv2º
 import numpy as np
 import time
 import matplotlib.pyplot as plt
 import json
 import os
 
+#Devuelve el tipo y la distancia según el nombre del fichero
 def check_file(file):
 	tipo = ["enPie", "sentado", "cilindroMenor", "cilindroMayor"]
 	distancia = ["Cerca", "Media", "Lejos"]
@@ -27,6 +30,7 @@ def check_file(file):
 
 	return tipo_encontrado, dist_encontrada
 
+#Devuelve el nombre del objeto de las escena de VREP según el tipo
 def chek_tipo(tipo):
 	if tipo == 0:
 		return 'Bill#2'
@@ -37,6 +41,7 @@ def chek_tipo(tipo):
 	elif tipo == 3:
 		return 'Cylinder0'
 
+#Devuelve el rango de distancias segun sea Cerca, Media o Lejos
 def check_dist(dist, params):
 	if dist == 0:
 		return params.cer, params.med
@@ -65,10 +70,15 @@ def capturar(clientID, file, params):
 
 	velocidad = 0 #Variable para la velocidad de los motores, dejamos fijo el robot
 
+	#Obtenemos los parametros necesarios en base al fichero seleccionado
 	tipo, dist = check_file(file)
 	objeto = chek_tipo(tipo)
 	dist_min, dist_max = check_dist(dist, params)
 
+	#En caso de que el objeto sea el cilindro mayot y
+	#la distancia sea Cerca, le damos un margen mayor
+	#para que al girar el objeto no golpee al robot,
+	#puesto que si esta tan cerca no cabe.
 	if(objeto == 'Cylinder0' and dist_min == 0.5):
 		dist_min += 0.6
 
@@ -107,6 +117,7 @@ def capturar(clientID, file, params):
 	returnCode = vrep.simxSetObjectPosition(clientID,objecthandle,-1,[dist_min,0.0,0.0],vrep.simx_opmode_oneshot)
 	returnCode = vrep.simxSetObjectOrientation(clientID, objecthandle, -1, [0.0,0.0,0.0], vrep.simx_opmode_oneshot)
 
+	#Creamos la lista de Paredes
 	muroBase = '80cmHighWall200cm'
 	listaMuros = []
 	listaMuros.append(muroBase)
@@ -114,7 +125,7 @@ def capturar(clientID, file, params):
 		listaMuros.append(muroBase+str(i))
 
 	_, wallhandle = vrep.simxGetObjectHandle(clientID, listaMuros[4], vrep.simx_opmode_oneshot_wait)
-	if (_ == 0):
+	if (_ == 0): #Si existe un muro en la escena los movemos a su sitio según la distancia seleccionada
 		returnCode, position = vrep.simxGetObjectPosition(clientID, wallhandle, -1, vrep.simx_opmode_oneshot_wait)
 		dist_muro = position[0] - dist_max - 1.0
 
@@ -130,6 +141,8 @@ def capturar(clientID, file, params):
 	seguir=True
 	while(iteracion<=maxIter and seguir):
 
+		#Movemos el objeto en linea recta en el intervalo (dist_min,dist_max] asegurandonos
+		#que realiza dos rotaciones completas
 		ori = [0.0,0.0,(iteracion*12.56/maxIter) % 6.28]
 		pos = [dist_min+(dist_max-dist_min)*iteracion/maxIter,0.0,0.0]
 		print("Iteración:", iteracion, "Posición:", pos[0], "Orientación:", ori[2])
@@ -176,7 +189,6 @@ def capturar(clientID, file, params):
 		iteracion=iteracion+1
 
 	finFichero={"Iteraciones totales":iteracion-1}
-	#ficheroLaser.write('{}\n'.format(json.dumps(finFichero)))
 	ficheroLaser.write(json.dumps(finFichero)+'\n')
 	ficheroLaser.close()
 

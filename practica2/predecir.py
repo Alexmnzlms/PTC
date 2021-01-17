@@ -2,6 +2,8 @@
 Archivo: predecir.py
 Autor: Alejandro Manzanares Lemus
 
+Script correspondiente al apartado 4.6
+Utilizar el clasificador con datos nuevos a partir del simulador
 '''
 import vrep
 import sys
@@ -28,6 +30,7 @@ def predecir(clientID, params):
 	'''
 	LEYENDO DATOS DEL LASER
 	'''
+	print('LEYENDO DATOS DEL LASER...')
 
 	_, robothandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx', vrep.simx_opmode_oneshot_wait)
 
@@ -76,6 +79,7 @@ def predecir(clientID, params):
 		puntosy.append(datosLaser[indice+2])
 		puntosz.append(datosLaser[indice])
 
+	#Se guarda una imagen de los puntos leidos en el plano
 	plt.clf()
 	plt.plot(puntosx, puntosy, 'r.')
 	plt.savefig("lecturaLaser.jpg")
@@ -88,6 +92,8 @@ def predecir(clientID, params):
 	'''
 	CLUSTERIZACIÓN
 	'''
+	print('CLUSTERIZANDO...')
+
 	file = "datosLaser.json"
 	objetos=[]
 	with open(file, 'r') as f:
@@ -109,6 +115,7 @@ def predecir(clientID, params):
 			puntosx.append(px)
 			puntosy.append(py)
 
+	#Se guarda una imagen de los puntos leídos despues de clusterizar
 	plt.clf()
 	plt.plot(puntosx, puntosy, 'r.')
 	plt.savefig("lecturaClusters.jpg")
@@ -118,6 +125,8 @@ def predecir(clientID, params):
 	'''
 	CARACTERIZACION
 	'''
+	print('EXTRAYENDO CARACTERISTICAS...')
+
 	file = "clustersLaser.json"
 	objetos=[]
 	with open(file, 'r') as f:
@@ -153,6 +162,8 @@ def predecir(clientID, params):
 	'''
 	PREDICCION
 	'''
+	print('PROPORCIONANDO PREDICCION...')
+
 	colnames = ['perimetro', 'profundidad', 'anchura']
 
 	# cargamos los datos
@@ -183,6 +194,7 @@ def predecir(clientID, params):
 			for line in f:
 				objetos.append(json.loads(line))
 
+		#Separamos los puntos según la predicción
 		cont = 0
 		puntosXpos = []
 		puntosYpos = []
@@ -199,11 +211,14 @@ def predecir(clientID, params):
 					puntosYpos.append(py)
 			cont += 1
 
+		#Guardamos una imagen de la predicción sin los centroides de los clusters
 		plt.clf()
 		plt.plot(puntosXpos, puntosYpos, 'r.')
 		plt.plot(puntosXneg, puntosYneg, 'b.')
 		plt.savefig("prediccion_sin_centro.jpg")
 
+		#Calculamos los centroides de los clusters
+		#como la media de los puntos de dicho clusters
 		centroides = []
 		for dic in objetos:
 			centrox = 0
@@ -216,14 +231,18 @@ def predecir(clientID, params):
 			centroide = {"numero_cluster": dic['numero_cluster'], "centroX":centrox, "centroY": centroy}
 			centroides.append(centroide)
 
-		distanciaCercana = 0.5
+		distanciaCercana = 0.5 #Establecemos el valor de distancia cercana entre dos clusters
 
+		 #Calculamos las parejas cercanas de clusters
 		parejas = []
+
+		#Mientras haya centroides
 		while(len(centroides) > 0):
 			centro = centroides[0]
 			del centroides[0]
 			cont = 0
 			pos = -1
+			#Se comprueba para cada centroide la distancia con centro
 			for c in centroides:
 				mind = 1000.0
 				dist = fn.distancia_dos_puntos(centro['centroX'], centro['centroY'], c['centroX'], c['centroY'])
@@ -232,10 +251,12 @@ def predecir(clientID, params):
 					pos = cont
 				cont += 1
 			if pos != -1:
+				#Si se ha encontrado pareja para centro se añade
 				parejas.append((centro,centroides[pos]))
 				del centroides[pos]
 
-
+		#Se separan los centros de las parejas
+		#segun la predicción
 		centrosXneg = []
 		centrosXpos = []
 		centrosYneg = []
@@ -253,6 +274,7 @@ def predecir(clientID, params):
 				centrosXpos.append(xm)
 				centrosYpos.append(ym)
 
+		#Se guarda la imagen con la predicción final
 		plt.clf()
 		plt.plot(puntosXpos, puntosYpos, 'r.')
 		plt.plot(puntosXneg, puntosYneg, 'b.')

@@ -2,6 +2,8 @@
 Archivo: caracteristicas.py
 Autor: Alejandro Manzanares Lemus
 
+Script correspondiente al apartado 4.4
+Convertir los clústeres en características geométricas
 '''
 import json
 import funciones as fn
@@ -9,6 +11,7 @@ import funciones as fn
 def caracteristicas():
 	print("Ejecutando caracteristicas...")
 
+	#Para cada archivo de clusters
 	for file in ["clustersPiernas.json", "clustersNoPiernas.json"]:
 
 		objetos=[]
@@ -16,6 +19,7 @@ def caracteristicas():
 			for line in f:
 				objetos.append(json.loads(line))
 
+		#Establecemos el fichero de salida en función de la entrada
 		if file == "clustersPiernas.json":
 			espierna = 1
 			file_w = "caracteristicasPiernas.dat"
@@ -25,32 +29,8 @@ def caracteristicas():
 
 		fichero = open(file_w, "w")
 
+		#Obtenemos las caracteristicas de todos los clusters
 		for dic in objetos:
-####		perimetro = 0
-
-####		x0 = dic['puntosX'][0]
-####		y0 = dic['puntosY'][0]
-####		xn = dic['puntosX'][dic['numero_puntos'] - 1]
-####		yn = dic['puntosY'][dic['numero_puntos'] - 1]
-
-####		anchura = fn.distancia_dos_puntos(x0,y0,xn,yn)
-####		width_x, width_y, width_t = fn.recta_dos_puntos(x0,y0,xn,yn)
-
-####		profundidad = fn.distancia_punto_recta(x0,y0,width_x,width_y,width_t)
-
-####		for punto in range(dic['numero_puntos'] - 1):
-####			x1 = dic['puntosX'][punto]
-####			y1 = dic['puntosY'][punto]
-####			x2 = dic['puntosX'][punto+1]
-####			y2 = dic['puntosY'][punto+1]
-
-####			perimetro += fn.distancia_dos_puntos(x1,y1,x2,y2)
-
-####			p = fn.distancia_punto_recta(x2,y2,width_x,width_y,width_t)
-
-####			if p > profundidad:
-####				profundidad = p
-
 			perimetro, profundidad, anchura = fn.caracterizacion(dic['numero_puntos'], dic['puntosX'], dic['puntosY'])
 
 			caract = {"numero_cluster":dic['numero_cluster'], "numero_puntos":dic['numero_puntos'], "perimetro":perimetro, "profundidad":profundidad, "anchura":anchura, "esPierna":espierna}
@@ -60,6 +40,7 @@ def caracteristicas():
 	file_w = "piernasDataset.csv"
 	fichero = open(file_w, "w")
 
+	#Creamos el dataset
 	for file in ["caracteristicasNoPiernas.dat", "caracteristicasPiernas.dat"]:
 		objetos=[]
 		with open(file, 'r') as f:

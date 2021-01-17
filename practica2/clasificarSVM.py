@@ -2,6 +2,9 @@
 Archivo: clasificarSVM.py
 Autor: Alejandro Manzanares Lemus
 
+Script correspondiente al apartado 4.5
+Entrenar un clasificador binario utilizando Support Vector Machine (SVM) y Scikit-Learn
+Probamos con Kernel lineal, polinomico y radia
 '''
 import numpy as np
 import matplotlib.pyplot as plt
@@ -158,69 +161,12 @@ def clasificarSVM():
 	print("------------------------------------------------------------------")
 	'''
 	KERNEL RADIAL
-
-	Parámetros
-
-	C: por defecto vale 1.0. Penaliza el error de clasificación de los ejemplos,
-	   a mayor valor más se ajusta al conjunto de ejemplos.
-	gamma: por defecto auto = 1/ num_características
-		inversa del tamaño del "radio" del kernel. Una valor grande genera muchos
-		conjuntos de radios pequeños
 	'''
-	print("Clasificación con kernek de base radial con C=1 y gamma=auto")
-
-	svcRBF = SVC(kernel='rbf', gamma='auto')
-	svcRBF.fit(X_train, y_train)
-
-
-	# Con el clasificador obtenido hacemos la predicción sobre el conjunto de test incial
-
-	y_pred = svcRBF.predict(X_test)
-
-	acc_test=accuracy_score(y_test, y_pred)
-
-	print("Acc_test RBF: (TP+TN)/(T+P)	%0.4f" % acc_test)
-
-	print("Matriz de confusión Filas: verdad Columnas: predicción")
-	'''
-	 Cij observaciones que son de clase i pero que se predicen a la clase j.
-	 La suma por filas son los ejemplos reales que hay de cada clase=soporte.
-	( TN	FP
-	  FN	TP )
-	'''
-
-	print(confusion_matrix(y_test, y_pred))
-
-	'''
-	La precisión mide la capacidad del clasificador en no etiquetar como positivo un ejemplo que es negativo.
-	El recall mide la capacidad del clasificador para encontrar todos los ejemplos positivos.
-	'''
-
-	print("Precision= TP / (TP + FP), Recall= TP / (TP + FN)")
-	print("f1-score es la media entre precisión y recall")
-	print(classification_report(y_test, y_pred))
-
-	#Para asegurarnos de que el resultado no depende del conjunto de test elegido
-	#tenemos que realizar validación cruzada
-
-	svcRBF2 = SVC(kernel='rbf', gamma='auto')
-
-	scores = cross_val_score(svcRBF2, X_train, y_train, cv=5)
-
-	clasificadores.append(svcRBF2)
-	scores_clasificadores.append(scores.mean())
-
-	# exactitud media con intervalo de confianza del 95%
-	print("Accuracy 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
-	print("------------------------------------------------------------------")
-###############################################################################
-	print("------------------------------------------------------------------")
-	#utilizamos un Kernel Gausiano de base radial
 	#busqueda de parámetros
 	print("Búsqueda de parámetros en un rango en el caso de RBF")
 
 
-	param_grid={'C':[1,10,100,1000], 'gamma': [0.001, 0.005, 0.01, 0.1]}
+	param_grid={'C':[1,10,100,1000], 'gamma': [0.001, 0.005, 0.01, 0.1, 1/3]}
 
 	clf=GridSearchCV(SVC(kernel='rbf', class_weight="balanced"), param_grid)
 
@@ -292,6 +238,7 @@ def clasificarSVM():
 	cont = 0
 	pos = 0
 
+	#Escogemos el clasificador que mejor resultados ha aportado
 	for clf,score in zip(clasificadores,scores_clasificadores):
 		if max < score:
 			pos = cont

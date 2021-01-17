@@ -166,7 +166,7 @@ def clasificarSVM():
 	print("Búsqueda de parámetros en un rango en el caso de RBF")
 
 
-	param_grid={'C':[1,10,100,1000], 'gamma': [0.001, 0.005, 0.01, 0.1, 1/3]}
+	param_grid={'C':[1,10,100,1000], 'gamma': [0.001, 0.005, 0.01, 0.1, 'auto']}
 
 	clf=GridSearchCV(SVC(kernel='rbf', class_weight="balanced"), param_grid)
 

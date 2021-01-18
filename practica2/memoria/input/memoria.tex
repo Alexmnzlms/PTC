@@ -4,7 +4,7 @@
 
 El codigo de este script puede encontrarse en el archivo \textbf{mainInterfaz.py}
 
-En las siguientes figuras puede verse como es la apariencia de la interfaz gráfica con todas las ventanas tal y como se muestra en el guión de practicas:
+En las siguientes figuras puede verse como es la apariencia de la interfaz gráfica con todas las ventanas tal y como se muestra en el guión de prácticas:
 
 \begin{figure}[H]
 	\centering
@@ -104,7 +104,29 @@ A continuación, se pueden ver las diferentes escenas que se han usado para la c
 	\caption{Escena: escenacilindroMayorPared.ttt}
 \end{figure}
 
+\newpage
+
 Los objetos que pueden verse en las imágenes, se mueven justo delante del robot, a la distancia justa y se desplazan una distancia determinada por el número de iteraciones hasta llegar a la distancia máxima. Durante este desplazamiento, el modelo rota de manera que se puedan captar dos rotaciones completas.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturarterminal.png}
+	\caption{Escena: escenacilindroMayorPared.ttt}
+\end{figure}
+
+\begin{figure}[!htb]
+   \begin{subfigure}{0.48\textwidth}
+     \centering
+     \includegraphics[width=.7\linewidth]{Iteracion1.jpg}
+     \caption{Iteración 1}
+   \end{subfigure}\hfill
+   \begin{subfigure}{0.48\textwidth}
+     \centering
+     \includegraphics[width=.7\linewidth]{Iteracion50.jpg}
+     \caption{Iteración 50}
+	\end{subfigure}
+	\caption{Estados del modelo durante la captura}
+\end{figure}
 
 Se puede notar, que tal y como se explicó en las sesiones de prácticas, se han introducido dos tipos de escenas para los casos negativos, una que no cuenta con paredes y otra que si. Posteriormente se analizarán las variaciones entre los resultados.
 

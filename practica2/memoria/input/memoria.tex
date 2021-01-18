@@ -59,9 +59,9 @@ En las siguientes figuras puede verse como es la apariencia de la interfaz gráf
 
 \newpage
 
-\section{Captura de los datos del laser 2D en diferentes situaciones}
+\section{Captura de los datos del láser 2D en diferentes situaciones}
 
-El codigo de este script puede encontrarse en el archivo \textbf{capturar.py}
+El código de este script puede encontrarse en el archivo \textbf{capturar.py}
 
 Los parámetros escogidos para la captación de datos son:
 \begin{itemize}
@@ -104,22 +104,22 @@ A continuación, se pueden ver las diferentes escenas que se han usado para la c
 	\caption{Escena: escenacilindroMayorPared.ttt}
 \end{figure}
 
-Los objetos que pueden verse en las imagenes, se mueven justo delante del robot, a la distancia justa y se desplazan una distancia determinada por el número de iteraciones hasta llegar a la distancia máxima. Durante este desplazamiento, el modelo rota de manera que se puedan captar dos rotaciones completas.
+Los objetos que pueden verse en las imágenes, se mueven justo delante del robot, a la distancia justa y se desplazan una distancia determinada por el número de iteraciones hasta llegar a la distancia máxima. Durante este desplazamiento, el modelo rota de manera que se puedan captar dos rotaciones completas.
 
 Se puede notar, que tal y como se explicó en las sesiones de prácticas, se han introducido dos tipos de escenas para los casos negativos, una que no cuenta con paredes y otra que si. Posteriormente se analizarán las variaciones entre los resultados.
 
 Los datos recogidos durante las pruebas se encuentran disponibles en las carpetas positivo1-6 y negativo1-6. Por defecto, se encuentran disponibles los datos para los que se han utilizado las escenas de casos negativos con paredes.
-No obstante, para poder replicar los resultados de la predicción se han includo los archivos \textbf{DatosParedes.zip} y \textbf{DatosSinParedes.zip}, que contienen los datos recogidos con las escenas con paredes y sin paredes respectivamente. Para usar unos datos u otros, simplemente se deberán descomprimir estos archivos.
+No obstante, para poder replicar los resultados de la predicción se han incluido los archivos \textbf{DatosParedes.zip} y \textbf{DatosSinParedes.zip}, que contienen los datos recogidos con las escenas con paredes y sin paredes respectivamente. Para usar unos datos u otros, simplemente se deberán descomprimir estos archivos.
 
 \newpage
 
 \section{Agrupar los puntos x,y en clústeres}
 
-El codigo de este script puede encontrarse en el archivo \textbf{agrupar.py}
+El código de este script puede encontrarse en el archivo \textbf{agrupar.py}
 
 Los parámetros escogidos son:
 \begin{itemize}
-	\item MinPuntos: 3 \\ He considerado que 3 puntos son los minimos necesarios para poder extraer profundidad de un cluster.
+	\item MinPuntos: 3 \\ He considerado que 3 puntos son los mínimos necesarios para poder extraer profundidad de un cluster.
 	\item MaxPuntos: 25 \\ He establecido el límite máximo lo suficientemente grande para captar los cilindros grandes al encontrarse cerca.
 	\item UmbralDistancia: 0.05 \\ Un valor que ha aportado buenos resultados de manera experimental.
 \end{itemize}
@@ -141,9 +141,9 @@ Los datos de los clusters creados se almacenan en \textbf{clustersPiernas.json} 
 
 \section{Convertir los clústeres en características \\ geométricas}
 
-El codigo de este script puede encontrarse en el archivo \textbf{caracteristicas.py}
+El código de este script puede encontrarse en el archivo \textbf{características.py}
 
-Este script simplemente se encarga de leer los datos de \textbf{clustersPiernas.json} y \textbf{clustersNoPiernas.json} y aplicarle el algoritmo de extracción de caracteristicas que puede encontrarse en el script \textbf{funciones.py}.
+Este script simplemente se encarga de leer los datos de \textbf{clustersPiernas.json} y \textbf{clustersNoPiernas.json} y aplicarle el algoritmo de extracción de características que puede encontrarse en el script \textbf{funciones.py}.
 
 Como resultado se crean los archivos \textbf{caracteristicasPiernas.dat} y \textbf{caracteristicasNoPiernas.dat}. También combinando estos dos archivos, se obtiene el dataset \textbf{piernasDataset.csv}
 
@@ -151,11 +151,11 @@ Como resultado se crean los archivos \textbf{caracteristicasPiernas.dat} y \text
 
 \section{Entrenar un clasificador binario utilizando Support Vector Machine (SVM) y Scikit-Learn}
 
-El codigo de este script puede encontrarse en el archivo \textbf{clasificar.py}
+El código de este script puede encontrarse en el archivo \textbf{clasificar.py}
 
 A la hora de entrenar el clasificador se ha utilizado la función SVC (C-Support Vector Classification) de la biblioteca de Scikit-Learn.
 
-Para comparar resultados se han utilizado los kernel lineal, polinomico y radial. En el caso del radial se ha utilizado una función de optimización de parámetros para encontrar el mejor valor de C y ganma, siendo C un parametro de regularización y ganma el coeficiente del kernel.
+Para comparar resultados se han utilizado los kernel lineal, polinómico y radial. En el caso del radial se ha utilizado una función de optimización de parámetros para encontrar el mejor valor de C y ganma, siendo C un parámetro de regularización y ganma el coeficiente del kernel.
 
 En la siguiente figura se puede apreciar los resultados del entrenamiento de los datos con paredes:
 
@@ -165,7 +165,7 @@ En la siguiente figura se puede apreciar los resultados del entrenamiento de los
 	\caption{Resultados de SVC con los datos con paredes}
 \end{figure}
 
-Podemos ver como el SVC con kernel radial, C=1000 y ganma automatico (este valor es 1/3 ya que nuestro modelo tiene 3 caracteristicas) aporta una precisión de 93\% más o menos.
+Podemos ver como el SVC con kernel radial, C=1000 y ganma automático (este valor es 1/3 ya que nuestro modelo tiene 3 características) aporta una precisión de 93\% más o menos.
 
 Para el caso de entrenamiento con datos sin paredes:
 
@@ -175,7 +175,7 @@ Para el caso de entrenamiento con datos sin paredes:
 	\caption{Resultados de SVC con los datos sin paredes}
 \end{figure}
 
-Vemos como el SVC con kernel radial, C=1000 y ganma automatico vuelve a proporcionar los mejores resultados, aportando en este caso alrededor de un 90\% de precsión.
+Vemos como el SVC con kernel radial, C=1000 y ganma automático vuelve a proporcionar los mejores resultados, aportando en este caso alrededor de un 90\% de precisión.
 
 Una vez se ha determinado cual es el mejor clasificador en función a la precisión obtenida, este se guarda en el archivo \textbf{clasificador.pkl} dentro de la carpeta predecir.
 
@@ -183,7 +183,7 @@ Una vez se ha determinado cual es el mejor clasificador en función a la precisi
 
 \section{Utilizar el clasificador con datos nuevos a partir del simulador}
 
-El codigo de este script puede encontrarse en el archivo \textbf{predecir.py}
+El código de este script puede encontrarse en el archivo \textbf{predecir.py}
 
 Finalmente, ha llegado el turno de probar la eficacia de nuestro modelo entrenado. Para ello se ha utilizado al escena que puede verse en la siguiente figura:
 \begin{figure}[H]
@@ -201,7 +201,7 @@ Y se ha obtenido la siguiente lectura de puntos:
 \end{figure}
 
 \subsection{Datos con paredes}
-Veamos cómo es la predicción obtenida para el clasificador entrenado con los datos que contenian paredes en los ejemplos negativos.
+Veamos cómo es la predicción obtenida para el clasificador entrenado con los datos que contenían paredes en los ejemplos negativos.
 
 \begin{figure}[H]
 	\centering
@@ -209,7 +209,7 @@ Veamos cómo es la predicción obtenida para el clasificador entrenado con los d
 	\caption{Salida del programa}
 \end{figure}
 
-En la siguiente figura se puede apreciar como el clasificador detecta correctamente la pared del fondo como objeto negativo. También es capaz de reconocer como objeto negativo los cilindros grandes que se encuentran en la escena. Sin embargo, propociona un falso positivo tanto para la pareja de cilindros de tamaño parecido a unas piernas, como para los cilindro más estrechos que tiene justo enfrente.
+En la siguiente figura se puede apreciar como el clasificador detecta correctamente la pared del fondo como objeto negativo. También es capaz de reconocer como objeto negativo los cilindros grandes que se encuentran en la escena. Sin embargo, proporciona un falso positivo tanto para la pareja de cilindros de tamaño parecido a unas piernas, como para los cilindro más estrechos que tiene justo enfrente.
 
 \begin{figure}[H]
 	\centering
@@ -220,14 +220,14 @@ En la siguiente figura se puede apreciar como el clasificador detecta correctame
 \newpage
 
 \subsection{Datos sin paredes}
-Pasemos a cómo es la predicción obtenida para el clasificador entrenado con los datos que no contenian paredes en los ejemplos negativos.
+Pasemos a cómo es la predicción obtenida para el clasificador entrenado con los datos que no contenían paredes en los ejemplos negativos.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{predecirSinParedes/terminal.png}
 	\caption{Salida del programa}
 \end{figure}
 
-En la siguiente figura, podemos apreciar como se igual forma, tanto las paredes como los cilindros mas anchos son detectados correctamente como ejemplos negativos, sin embargo este modelo aporta solo un falso positivo en los cilindros más estrechos, detectando solo uno de ellos como pierna. Los demás objetos los clasifica como piernas, siendo el unico fallo la pareja de cilindros de tamaño similar a piernas.
+En la siguiente figura, podemos apreciar como se igual forma, tanto las paredes como los cilindros mas anchos son detectados correctamente como ejemplos negativos, sin embargo este modelo aporta solo un falso positivo en los cilindros más estrechos, detectando solo uno de ellos como pierna. Los demás objetos los clasifica como piernas, siendo el único fallo la pareja de cilindros de tamaño similar a piernas.
 
 \begin{figure}[H]
 	\centering

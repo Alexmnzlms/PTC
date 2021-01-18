@@ -124,60 +124,92 @@ Los parámetros escogidos son:
 	\item UmbralDistancia: 0.05 \\ Un valor que ha aportado buenos resultados de manera experimental.
 \end{itemize}
 
+En la siguiente figura puede apreciarse el número total de iteraciones de datos recogidos para casos positivos y negativos y el número de puntos que se han obtenido. Nótese que el número de puntos de casos negativos aumenta significativamente al incluir las paredes.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{agruparParedes.png}
+	\includegraphics[width=\textwidth]{agruparParedes.png}
 	\caption{Agrupación de los datos (con paredes en los negativos)}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{agruparSinParedes.png}
+	\includegraphics[width=\textwidth]{agruparSinParedes.png}
 	\caption{Agrupación de los datos (sin paredes en los negativos)}
 \end{figure}
+
+Los datos de los clusters creados se almacenan en \textbf{clustersPiernas.json} y \textbf{clustersNoPiernas.json}
 
 \section{Convertir los clústeres en características \\ geométricas}
 
 El codigo de este script puede encontrarse en el archivo \textbf{caracteristicas.py}
 
+Este script simplemente se encarga de leer los datos de \textbf{clustersPiernas.json} y \textbf{clustersNoPiernas.json} y aplicarle el algoritmo de extracción de caracteristicas que puede encontrarse en el script \textbf{funciones.py}.
+
+Como resultado se crean los archivos \textbf{caracteristicasPiernas.dat} y \textbf{caracteristicasNoPiernas.dat}. También combinando estos dos archivos, se obtiene el dataset \textbf{piernasDataset.csv}
+
+\newpage
+
 \section{Entrenar un clasificador binario utilizando Support Vector Machine (SVM) y Scikit-Learn}
 
 El codigo de este script puede encontrarse en el archivo \textbf{clasificar.py}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{SVCparedes.png}
-	\caption{Resultados de SVC con los datos con paredes}
-\end{figure}
+A la hora de entrenar el clasificador se ha utilizado la función SVC (C-Support Vector Classification) de la biblioteca de Scikit-Learn.
+
+Para comparar resultados se han utilizado los kernel lineal, polinomico y radial. En el caso del radial se ha utilizado una función de optimización de parámetros para encontrar el mejor valor de C y ganma, siendo C un parametro de regularización y ganma el coeficiente del kernel.
+
+En la siguiente figura se puede apreciar los resultados del entrenamiento de los datos con paredes:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{SVCsinparedes.png}
+	\includegraphics[width=\textwidth]{SVCparedes.png}
+	\caption{Resultados de SVC con los datos con paredes}
+\end{figure}
+
+Podemos ver como el SVC con kernel radial, C=1000 y ganma automatico (este valor es 1/3 ya que nuestro modelo tiene 3 caracteristicas) aporta una precisión de 93\% más o menos.
+
+Para el caso de entrenamiento con datos sin paredes:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{SVCsinparedes.png}
 	\caption{Resultados de SVC con los datos sin paredes}
 \end{figure}
+
+Vemos como el SVC con kernel radial, C=1000 y ganma automatico vuelve a proporcionar los mejores resultados, aportando en este caso alrededor de un 90\% de precsión.
+
+Una vez se ha determinado cual es el mejor clasificador en función a la precisión obtenida, este se guarda en el archivo \textbf{clasificador.pkl} dentro de la carpeta predecir.
+
+\newpage
 
 \section{Utilizar el clasificador con datos nuevos a partir del simulador}
 
 El codigo de este script puede encontrarse en el archivo \textbf{predecir.py}
 
+Finalmente, ha llegado el turno de probar la eficacia de nuestro modelo entrenado. Para ello se ha utilizado al escena que puede verse en la siguiente figura:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{predecir.png}
 	\caption{Escena: escenatest.ttt}
 \end{figure}
 
+Y se ha obtenido la siguiente lectura de puntos:
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{lecturaLaser.jpg}
+	\includegraphics[width=0.7\textwidth]{lecturaLaser.jpg}
 	\caption{Lectura del láser de robot}
 \end{figure}
 
 \subsection{Datos con paredes}
+Veamos cómo es la predicción obtenida para el clasificador entrenado con los datos que contenian paredes en los ejemplos negativos.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{predecirParedes/terminal.png}
+	\includegraphics[width=\textwidth]{predecirParedes/terminal.png}
 	\caption{Salida del programa}
 \end{figure}
+
+En la siguiente figura se puede apreciar como el clasificador detecta correctamente la pared del fondo como objeto negativo. También es capaz de reconocer como objeto negativo los cilindros grandes que se encuentran en la escena. Sin embargo, propociona un falso positivo tanto para la pareja de cilindros de tamaño parecido a unas piernas, como para los cilindro más estrechos que tiene justo enfrente.
 
 \begin{figure}[H]
 	\centering
@@ -185,12 +217,17 @@ El codigo de este script puede encontrarse en el archivo \textbf{predecir.py}
 	\caption{Predicción}
 \end{figure}
 
+\newpage
+
 \subsection{Datos sin paredes}
+Pasemos a cómo es la predicción obtenida para el clasificador entrenado con los datos que no contenian paredes en los ejemplos negativos.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{predecirSinParedes/terminal.png}
+	\includegraphics[width=\textwidth]{predecirSinParedes/terminal.png}
 	\caption{Salida del programa}
 \end{figure}
+
+En la siguiente figura, podemos apreciar como se igual forma, tanto las paredes como los cilindros mas anchos son detectados correctamente como ejemplos negativos, sin embargo este modelo aporta solo un falso positivo en los cilindros más estrechos, detectando solo uno de ellos como pierna. Los demás objetos los clasifica como piernas, siendo el unico fallo la pareja de cilindros de tamaño similar a piernas.
 
 \begin{figure}[H]
 	\centering

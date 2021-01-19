@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 '''
 Archivo: capturar.py
 Autor: Alejandro Manzanares Lemus

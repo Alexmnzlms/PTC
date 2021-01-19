@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 '''
 Archivo: parametros.py
 Autor: Alejandro Manzanares Lemus

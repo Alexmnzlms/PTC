@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 '''
 Archivo: caracteristicas.py
 Autor: Alejandro Manzanares Lemus

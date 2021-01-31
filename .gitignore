@@ -17,6 +17,8 @@ practica2/memoria/img/*
 *.dat
 *.pkl
 
+!practica2/script/copiar_escenas.sh
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

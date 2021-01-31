@@ -1,6 +1,21 @@
+practica2/dirLectura*
+practica2/vrep*
+practica2/V-REP_PRO_EDU_V3_6_2_Ubuntu18_04/*
+practica2/V-REP_PRO_EDU_V3_6_2_Ubuntu18_04.tar.xz
+practica2/Ejemplos/*
+practica2/escenas/*
+practica2/memoria/img/*
+!practica2/memoria/img/cover.png
+
+*.json
+*.jpg
 *.pdf
 *.zip
 *.odp
+*.sh
+*.csv
+*.dat
+*.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

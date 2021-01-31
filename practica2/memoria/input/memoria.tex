@@ -1,0 +1,258 @@
+\chapter{Práctica Tkinter Robótica}
+
+\section{Implementación de la interfaz gráfica con tkinter}
+
+El codigo de este script puede encontrarse en el archivo \textbf{mainInterfaz.py}
+
+En las siguientes figuras puede verse como es la apariencia de la interfaz gráfica con todas las ventanas tal y como se muestra en el guión de prácticas:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz1.png}
+	\caption{Interfaz gráfica recién iniciada}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz2.png}
+	\caption{Interfaz gráfica funcionando}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz3.png}
+	\caption{Botón Conectar con VREP}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz4.png}
+	\caption{Botón Conectar con VREP}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz5.png}
+	\caption{Botón Capturar}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz6.png}
+	\caption{Botón Capturar}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz7.png}
+	\caption{Botón Capturar}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz9.png}
+	\caption{Botón Detener y Desconectar VREP}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz8.png}
+	\caption{Botón Salir}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mainInterfaz10.png}
+	\caption{Botón Salir}
+\end{figure}
+
+\newpage
+
+\section{Captura de los datos del láser 2D en diferentes situaciones}
+
+El código de este script puede encontrarse en el archivo \textbf{capturar.py}
+
+Los parámetros escogidos para la captación de datos son:
+\begin{itemize}
+	\item Iteraciones: 50
+	\item Cerca: 0.5
+	\item Media: 1.5
+	\item Lejos: 2.5
+\end{itemize}
+
+A continuación, se pueden ver las diferentes escenas que se han usado para la captación de datos:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturar1.png}
+	\caption{Escena: escenaenPie.ttt}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturar2.png}
+	\caption{Escena: escenasentado.ttt}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturar3.png}
+	\caption{Escena: escenacilindroMenor.ttt}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturar4.png}
+	\caption{Escena: escenacilindorMenorPared.ttt}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturar5.png}
+	\caption{Escena: escenacilindroMayor.ttt}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturar6.png}
+	\caption{Escena: escenacilindroMayorPared.ttt}
+\end{figure}
+
+\newpage
+
+Los objetos que pueden verse en las imágenes, se mueven justo delante del robot, a la distancia justa y se desplazan una distancia determinada por el número de iteraciones hasta llegar a la distancia máxima. Durante este desplazamiento, el modelo rota de manera que se puedan captar dos rotaciones completas.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{capturarterminal.png}
+	\caption{Escena: escenacilindroMayorPared.ttt}
+\end{figure}
+
+\begin{figure}[!htb]
+   \begin{subfigure}{0.48\textwidth}
+     \centering
+     \includegraphics[width=.7\linewidth]{Iteracion1.jpg}
+     \caption{Iteración 1}
+   \end{subfigure}\hfill
+   \begin{subfigure}{0.48\textwidth}
+     \centering
+     \includegraphics[width=.7\linewidth]{Iteracion50.jpg}
+     \caption{Iteración 50}
+	\end{subfigure}
+	\caption{Estados del modelo durante la captura}
+\end{figure}
+
+Se puede notar, que tal y como se explicó en las sesiones de prácticas, se han introducido dos tipos de escenas para los casos negativos, una que no cuenta con paredes y otra que si. Posteriormente se analizarán las variaciones entre los resultados.
+
+Los datos recogidos durante las pruebas se encuentran disponibles en las carpetas positivo1-6 y negativo1-6. Por defecto, se encuentran disponibles los datos para los que se han utilizado las escenas de casos negativos con paredes.
+No obstante, para poder replicar los resultados de la predicción se han incluido los archivos \textbf{DatosParedes.zip} y \textbf{DatosSinParedes.zip}, que contienen los datos recogidos con las escenas con paredes y sin paredes respectivamente. Para usar unos datos u otros, simplemente se deberán descomprimir estos archivos.
+
+\newpage
+
+\section{Agrupar los puntos x,y en clústeres}
+
+El código de este script puede encontrarse en el archivo \textbf{agrupar.py}
+
+Los parámetros escogidos son:
+\begin{itemize}
+	\item MinPuntos: 3 \\ He considerado que 3 puntos son los mínimos necesarios para poder extraer profundidad de un cluster.
+	\item MaxPuntos: 25 \\ He establecido el límite máximo lo suficientemente grande para captar los cilindros grandes al encontrarse cerca.
+	\item UmbralDistancia: 0.05 \\ Un valor que ha aportado buenos resultados de manera experimental.
+\end{itemize}
+
+En la siguiente figura puede apreciarse el número total de iteraciones de datos recogidos para casos positivos y negativos y el número de puntos que se han obtenido. Nótese que el número de puntos de casos negativos aumenta significativamente al incluir las paredes.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{agruparParedes.png}
+	\caption{Agrupación de los datos (con paredes en los negativos)}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{agruparSinParedes.png}
+	\caption{Agrupación de los datos (sin paredes en los negativos)}
+\end{figure}
+
+Los datos de los clusters creados se almacenan en \textbf{clustersPiernas.json} y \textbf{clustersNoPiernas.json}
+
+\section{Convertir los clústeres en características \\ geométricas}
+
+El código de este script puede encontrarse en el archivo \textbf{características.py}
+
+Este script simplemente se encarga de leer los datos de \textbf{clustersPiernas.json} y \textbf{clustersNoPiernas.json} y aplicarle el algoritmo de extracción de características que puede encontrarse en el script \textbf{funciones.py}.
+
+Como resultado se crean los archivos \textbf{caracteristicasPiernas.dat} y \textbf{caracteristicasNoPiernas.dat}. También combinando estos dos archivos, se obtiene el dataset \textbf{piernasDataset.csv}
+
+\newpage
+
+\section{Entrenar un clasificador binario utilizando Support Vector Machine (SVM) y Scikit-Learn}
+
+El código de este script puede encontrarse en el archivo \textbf{clasificar.py}
+
+A la hora de entrenar el clasificador se ha utilizado la función SVC (C-Support Vector Classification) de la biblioteca de Scikit-Learn.
+
+Para comparar resultados se han utilizado los kernel lineal, polinómico y radial. En el caso del radial se ha utilizado una función de optimización de parámetros para encontrar el mejor valor de C y ganma, siendo C un parámetro de regularización y ganma el coeficiente del kernel.
+
+En la siguiente figura se puede apreciar los resultados del entrenamiento de los datos con paredes:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{SVCparedes.png}
+	\caption{Resultados de SVC con los datos con paredes}
+\end{figure}
+
+Podemos ver como el SVC con kernel radial, C=1000 y ganma automático (este valor es 1/3 ya que nuestro modelo tiene 3 características) aporta una precisión de 93\% más o menos.
+
+Para el caso de entrenamiento con datos sin paredes:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{SVCsinparedes.png}
+	\caption{Resultados de SVC con los datos sin paredes}
+\end{figure}
+
+Vemos como el SVC con kernel radial, C=1000 y ganma automático vuelve a proporcionar los mejores resultados, aportando en este caso alrededor de un 90\% de precisión.
+
+Una vez se ha determinado cual es el mejor clasificador en función a la precisión obtenida, este se guarda en el archivo \textbf{clasificador.pkl} dentro de la carpeta predecir.
+
+\newpage
+
+\section{Utilizar el clasificador con datos nuevos a partir del simulador}
+
+El código de este script puede encontrarse en el archivo \textbf{predecir.py}
+
+Finalmente, ha llegado el turno de probar la eficacia de nuestro modelo entrenado. Para ello se ha utilizado al escena que puede verse en la siguiente figura:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{predecir.png}
+	\caption{Escena: escenatest.ttt}
+\end{figure}
+
+Y se ha obtenido la siguiente lectura de puntos:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{lecturaLaser.jpg}
+	\caption{Lectura del láser de robot}
+\end{figure}
+
+\subsection{Datos con paredes}
+Veamos cómo es la predicción obtenida para el clasificador entrenado con los datos que contenían paredes en los ejemplos negativos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{predecirParedes/terminal.png}
+	\caption{Salida del programa}
+\end{figure}
+
+En la siguiente figura se puede apreciar como el clasificador detecta correctamente la pared del fondo como objeto negativo. También es capaz de reconocer como objeto negativo los cilindros grandes que se encuentran en la escena. Sin embargo, proporciona un falso positivo tanto para la pareja de cilindros de tamaño parecido a unas piernas, como para los cilindro más estrechos que tiene justo enfrente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{predecirParedes/prediccion.jpg}
+	\caption{Predicción}
+\end{figure}
+
+\newpage
+
+\subsection{Datos sin paredes}
+Pasemos a cómo es la predicción obtenida para el clasificador entrenado con los datos que no contenían paredes en los ejemplos negativos.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{predecirSinParedes/terminal.png}
+	\caption{Salida del programa}
+\end{figure}
+
+En la siguiente figura, podemos apreciar como se igual forma, tanto las paredes como los cilindros mas anchos son detectados correctamente como ejemplos negativos, sin embargo este modelo aporta solo un falso positivo en los cilindros más estrechos, detectando solo uno de ellos como pierna. Los demás objetos los clasifica como piernas, siendo el único fallo la pareja de cilindros de tamaño similar a piernas.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{predecirSinParedes/prediccion.jpg}
+	\caption{Predicción}
+\end{figure}
